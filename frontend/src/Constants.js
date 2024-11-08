@@ -35,6 +35,16 @@ export const microLoansAbi=[
           "internalType": "string",
           "name": "image",
           "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_income",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_savings",
+          "type": "uint256"
         }
       ],
       "name": "addKYC",
@@ -97,6 +107,116 @@ export const microLoansAbi=[
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getAllApprovedLoans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum MicroLoans.Type",
+              "name": "typeOfLoan",
+              "type": "uint8"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "interestRate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "paidAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "monthlyPayment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "nextPaymentDue",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "borrower",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "lender",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct MicroLoans.ApprovedLoan[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllRequestedLoans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum MicroLoans.Type",
+              "name": "typeOfLoan",
+              "type": "uint8"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "requester",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct MicroLoans.RequestedLoan[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -145,7 +265,27 @@ export const microLoansAbi=[
             },
             {
               "internalType": "uint256",
+              "name": "credit",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
               "name": "strikes",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "income",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "savings",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "debt",
               "type": "uint256"
             }
           ],
@@ -271,6 +411,11 @@ export const microLoansAbi=[
               "internalType": "string",
               "name": "description",
               "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "requester",
+              "type": "address"
             }
           ],
           "internalType": "struct MicroLoans.RequestedLoan[]",
@@ -337,7 +482,7 @@ export const microLoansAbi=[
     }
   ]
 
-export const microLoansAddress="0x8fe4C4D66AfF76959D915950e77A3c61ad2DA66D"
+export const microLoansAddress="0xCEf7765a410C50457f6F06614Cdc0f0eE7B9340A"
 
 export const communityFactoryAddress="0x3CA6Ab82C481248a1eA1e89CCa7cb8A3d4f4D82b"
 

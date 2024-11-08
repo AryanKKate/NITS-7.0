@@ -7,21 +7,29 @@ import { Testimonials } from "../Components/Testimonials";
 
 function Landing() {
   return (
-    <div className="bg-gray-800">
+    <div className="bg-gray-900">
       <Navbar />
-      <div className=" mt-16">
+
+      <div className="mt-14">
         <Hero />
       </div>
-      <div className=" pt-24">
+      <hr className="border-t border-white mx-auto mt-24 w-11/12" />
+
+      <div className="pt-14">
         <Benefits />
       </div>
-      <div className=" pt-28">
+      <hr className="border-t border-white mx-auto mt-24 w-11/12" />
+
+      <div className="pt-14">
         <Testimonials />
       </div>
-      <div className=" pt-28">
+      <hr className="border-t border-white mx-auto mt-24 w-11/12" />
+
+      <div className="pt-14">
         <Faq />
       </div>
-      <div className=" pt-24">
+
+      <div className="pt-4">
         <Footer />
       </div>
     </div>

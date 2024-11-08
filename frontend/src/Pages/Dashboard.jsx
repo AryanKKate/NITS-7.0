@@ -47,13 +47,13 @@ function Dashboard() {
   };
 
   return (
-    <div className="bg-gray-800 min-h-screen">
+    <div className="bg-gray-900 min-h-screen">
       <Navbar />
       <div className="px-6 py-12">
         <h1 className="text-4xl font-semibold text-center text-white mb-8">
           Your Loans
         </h1>
-        <div className="space-y-6">
+        <div className="space-y-6 mx-10">
           {userLoans.map((loan, index) => (
             <div key={loan.id} className="bg-gray-700 p-6 rounded-lg shadow-lg">
               <div className="flex justify-between items-center">

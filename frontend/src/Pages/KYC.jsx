@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 function KYC() {
   // State for form data
   const context = useWalletContract();
-  const { connectWallet, walletAddress, addKyc, getKyc } = context;
+  const { isConnected, connectWallet, walletAddress, microLoansContract } =
+    context;
   const navigate = useNavigate();
 
   // State for loading and error
@@ -17,22 +18,10 @@ function KYC() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    connectWallet();
-  }, []);
-
-  useEffect(() => {
-    setFormData((prev) => {
-      return { ...prev, walletAddress: walletAddress };
-    });
-    const getPrev = async () => {
-      const res = await getKyc();
-      console.log(res);
-      if (res.error) {
-        navigate("/dashboard");
-      }
-    };
-    getPrev();
-  }, [walletAddress]);
+    if (!isConnected) {
+      connectWallet();
+    }
+  }, [isConnected]);
 
   const [formData, setFormData] = useState({
     walletAddress: "",
@@ -41,6 +30,9 @@ function KYC() {
     city: "",
     addr: "",
     adhar_num: "",
+    bankAccNumber: "",
+    annualIncome: "",
+    savings:"", // Added annualIncome
     image: "https://via.placeholder.com/150", // Dummy image URL
   });
 
@@ -94,16 +86,28 @@ function KYC() {
 
     // Handle the form submission, e.g., send the data to an API
     const image = await handleImageUpload(formData.image);
+    console.log(image);
     if (image) {
       try {
-        const res = await addKyc(formData); // Adjusted formData for the contract
+        console.log(walletAddress);
+        const res = await microLoansContract.addKYC(
+          walletAddress,
+          formData.name,
+          +formData.age,
+          formData.city,
+          formData.addr,
+          formData.adhar_num,
+          image,
+          +formData.annualIncome,
+          +formData.savings
+        );
         console.log(res);
         console.log("Form submitted:", formData);
         toast.success("Form Submitted");
       } catch (err) {
+        toast.error("Error submitting your KYC");
         console.log(err);
       }
-      navigate("/form");
     } else {
       toast.error("Failed to upload image");
     }
@@ -140,7 +144,7 @@ function KYC() {
                   type="text"
                   name="walletAddress"
                   placeholder="Wallet Address"
-                  value={formData.walletAddress}
+                  value={walletAddress}
                   required
                 />
                 <input
@@ -194,6 +198,24 @@ function KYC() {
                   name="adharCardNumber"
                   placeholder="Aadhar Card Number"
                   value={formData.adharCardNumber}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                  type="number"
+                  name="annualIncome"
+                  placeholder="Annual Income"
+                  value={formData.annualIncome}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                  type="number"
+                  name="savings"
+                  placeholder="Savings"
+                  value={formData.savings}
                   onChange={handleChange}
                   required
                 />
