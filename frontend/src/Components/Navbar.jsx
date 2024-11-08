@@ -9,12 +9,12 @@ export const Navbar = () => {
   console.log(context);
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="sm:px-[0px] bg-[#353944] border-b-[1px] mb-10 border-white">
+    <div className="sm:px-[0px] bg-indigo-700 border-b-[1px] mb-10 border-white">
       <nav className="container relative flex flex-wrap items-center justify-between py-8 lg:justify-between xl:px-1">
         {/* Logo */}
         <Link
           to="/"
-          className="ml-5 flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
+          className="ml-24 flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
         >
           <img
             src="/logo.png" // Update this path to your logo image
@@ -22,7 +22,7 @@ export const Navbar = () => {
             alt="Logo"
             className="w-8"
           />
-          <span className="text-indigo-300">Credify Pro</span>
+          <span className="text-white">Credify Pro</span>
         </Link>
 
         {/* Get Started button - only show on medium and larger screens */}
@@ -47,7 +47,7 @@ export const Navbar = () => {
           </Link>
           <Link
             to="/loan"
-            className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5"
+            className="px-6 py-2 text-white bg-gray-800 rounded-md md:ml-5"
             onClick={() => {
               connectWallet;
             }}
