@@ -13,6 +13,7 @@ contract MicroLoans {
         string adhar_num;
         string image;
         Status st;
+        uint256 credit;
         uint256 strikes;
     }
 
@@ -55,7 +56,7 @@ contract MicroLoans {
         string memory adhar_num,
         string memory image
     ) public {
-        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0);
+        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0, 0);
     }
 
     function approveKYC(address person) public {
@@ -132,7 +133,7 @@ contract MicroLoans {
     require(payment >= loan.monthlyPayment, "Insufficient payment amount");
     bool success = payable(loan.lender).send(payment);
     require(success, "Payment failed");
-
+    kycData[msg.sender].credit+=2;
     loan.paidAmount += payment;
     loan.nextPaymentDue += 30 days;
 
@@ -146,7 +147,9 @@ contract MicroLoans {
             ApprovedLoan storage loan = userApprovedLoans[borrower][i];
             if (loan.isActive && block.timestamp > loan.nextPaymentDue) {
                 kycData[borrower].strikes++;
+                kycData[borrower].credit-=5;
                 loan.nextPaymentDue += 30 days; 
+
             }
         }
     }

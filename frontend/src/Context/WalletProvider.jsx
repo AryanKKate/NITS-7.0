@@ -17,7 +17,7 @@ export const WalletContractProvider = ({ children }) => {
         setWalletAddress(account);
         setIsConnected(true);
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = provider.getSigner();
+        const signer = await provider.getSigner();
         initializeContract(signer);
       } catch (error) {
         console.error("Error connecting to MetaMask:", error);
@@ -34,6 +34,7 @@ export const WalletContractProvider = ({ children }) => {
   };
 
   const initializeContract = (signer) => {
+    console.log(signer)
     const contractInstance = new ethers.Contract(microLoansAddress, microLoansAbi, signer);
     setMicroLoansContract(contractInstance);
   };

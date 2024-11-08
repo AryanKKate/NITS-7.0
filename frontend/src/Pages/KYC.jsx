@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function KYC() {
   // State for form data
   const context = useWalletContract();
-  const { connectWallet, walletAddress, addKyc, getKyc } = context;
+  const { isConnected, connectWallet, walletAddress, microLoansContract } = context;
   const navigate = useNavigate();
 
   // State for loading and error
@@ -17,22 +17,24 @@ function KYC() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    connectWallet();
-  }, []);
+    if(!isConnected){
+      connectWallet();
+    }
+  }, [isConnected]);
 
-  useEffect(() => {
-    setFormData((prev) => {
-      return { ...prev, walletAddress: walletAddress };
-    });
-    const getPrev = async () => {
-      const res = await getKyc();
-      console.log(res);
-      if (res.error) {
-        navigate("/dashboard");
-      }
-    };
-    getPrev();
-  }, [walletAddress]);
+  // useEffect(() => {
+  //   setFormData((prev) => {
+  //     return { ...prev, walletAddress: walletAddress };
+  //   });
+  //   const getPrev = async () => {
+  //     const res = await getKyc();
+  //     console.log(res);
+  //     if (!res.error) {
+  //       navigate("/dashboard");
+  //     }
+  //   };
+  //   getPrev();
+  // }, [walletAddress]);
 
   const [formData, setFormData] = useState({
     walletAddress: "",
@@ -94,16 +96,19 @@ function KYC() {
 
     // Handle the form submission, e.g., send the data to an API
     const image = await handleImageUpload(formData.image);
+    console.log(image)
     if (image) {
       try {
-        const res = await addKyc(formData); // Adjusted formData for the contract
+        console.log(walletAddress)
+        const res=await microLoansContract.addKYC(walletAddress, formData.name, +formData.age, formData.city, formData.addr,formData.adhar_num, image)    
         console.log(res);
         console.log("Form submitted:", formData);
         toast.success("Form Submitted");
       } catch (err) {
+        toast.error("Error submitting your KYC")
         console.log(err);
       }
-      navigate("/form");
+      // navigate("/form");
     } else {
       toast.error("Failed to upload image");
     }
@@ -140,7 +145,7 @@ function KYC() {
                   type="text"
                   name="walletAddress"
                   placeholder="Wallet Address"
-                  value={formData.walletAddress}
+                  value={walletAddress}
                   required
                 />
                 <input
