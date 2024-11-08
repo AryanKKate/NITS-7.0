@@ -1,9 +1,9 @@
 import { Benefits } from "../Components/Benefits";
-//import Faq from "../Components/Faq";
+import Faq from "../Components/Faq";
 //import { Footer } from "../Components/Footer";
 import { Hero } from "../Components/Hero";
 import { Navbar } from "../Components/Navbar";
-//import { Testimonials } from "../Components/Testimonials";
+import { Testimonials } from "../Components/Testimonials";
 
 function Landing() {
   return (
@@ -15,12 +15,12 @@ function Landing() {
       <div className=" pt-24">
         <Benefits />
       </div>
-      {/* <div className=" pt-28">
+      <div className=" pt-28">
         <Testimonials />
       </div>
       <div className=" pt-28">
         <Faq />
-      </div> */}
+      </div>
       {/* <div className=" pt-24">
         <Footer />
       </div> */}
