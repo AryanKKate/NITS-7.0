@@ -110,10 +110,10 @@ const BiddingPage = () => {
   };
 
   return (
-    <div className="bg-gray-800">
+    <div className="bg-gray-900">
       <Navbar />
 
-      <div className="bg-gray-800 min-h-screen p-8">
+      <div className="bg-gray-900 min-h-screen p-8">
         <h1 className="text-4xl font-semibold text-center text-white mb-8">
           Loan Bidding
         </h1>
