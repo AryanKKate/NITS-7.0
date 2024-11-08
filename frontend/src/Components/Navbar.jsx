@@ -6,7 +6,7 @@ export const Navbar = () => {
   const navigation = [];
   const context = useWalletContract();
   const { isConnected, connectWallet } = context;
-  console.log(context);
+  // console.log(context);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="sm:px-[0px] bg-indigo-700 border-b-[1px] mb-10 border-white">

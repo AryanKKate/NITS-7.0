@@ -4,25 +4,8 @@ import { Navbar } from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useWalletContract } from "../Context/WalletProvider";
 import {ethers} from "ethers"
-const loanRequests = [
-  {
-    id: 1,
-    loanType: "Personal Loan",
-    amount: 20000,
-    bids: [
-      { name: "User1", roi: 5 },
-      { name: "User2", roi: 6 },
-    ],
-    timer: 24,
-  },
-  {
-    id: 2,
-    loanType: "Business Loan",
-    amount: 50000,
-    bids: [{ name: "User3", roi: 4 }],
-    timer: 12,
-  },
-];
+import axiosInstance from "../AxiosInstance";
+
 
 const BiddingPage = () => {
   const [filteredLoans, setFilteredLoans] = useState([]);
@@ -47,13 +30,12 @@ const BiddingPage = () => {
       if(!isConnected){
         await connectWallet()
       }
-      if(microLoansContract){
-        const res=await microLoansContract.getAllRequestedLoans()
-        console.log(ethers.formatEther(res[0].amount))
-        setLoanRequests(res)
-        setFilteredLoans(res)
+      const fetchLoans=async()=>{
+        const res=await axiosInstance.get('/loan')
+        console.log(res)
+        setFilteredLoans(res.data)
       }
-      else{console.log('gg')}
+      fetchLoans()
     }
     fetchRequsts()
   },[isConnected])
@@ -83,30 +65,9 @@ const BiddingPage = () => {
     setFilteredLoans(filtered);
   };
 
-  const handleSubmitBid = (loanId) => {
-    const currentUser = "CurrentUser";
-    const newRoi = parseFloat(roiBid);
-
-    const newLoanRequests = loanRequests.map((loan) => {
-      if (loan.id === loanId) {
-        const existingBidIndex = loan.bids.findIndex(
-          (bid) => bid.name === currentUser
-        );
-        if (existingBidIndex > -1) {
-          loan.bids[existingBidIndex].roi = newRoi;
-        } else {
-          loan.bids.push({ name: currentUser, roi: newRoi });
-        }
-      }
-      return loan;
-    });
-
-    setRoiBid("");
-    setSelectedLoan(null);
-    setUserBids((prev) => ({
-      ...prev,
-      [loanId]: newRoi,
-    }));
+  const handleSubmitBid = async(loanId) => {
+    const res=await axiosInstance.post('/loan/bid', {loanId})
+    console.log(res)
   };
 
   return (
@@ -154,8 +115,8 @@ const BiddingPage = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-semibold">{types[ethers.formatUnits(loan.typeOfLoan, 0)]} Loan</h3>
-              <p className="mt-2 text-lg">Amount: {ethers.formatEther(loan.amount)} ETH</p>
+              <h3 className="text-2xl font-semibold">{loan.loan/Math.pow(10,18)}</h3>
+              <p className="mt-2 text-lg">Percentage: {loan.percentage} %</p>
 
               <button
                 onClick={() => setSelectedLoan(loan)}
@@ -170,51 +131,28 @@ const BiddingPage = () => {
         {selectedLoan && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white text-black p-8 rounded-lg shadow-lg w-1/2">
-              <h3 className="text-2xl font-semibold">
+              {/* <h3 className="text-2xl font-semibold">
                 {types[ethers.formatUnits(selectedLoan.typeOfLoan, 0)]} Details
               </h3>
               <p className="mt-2">
                 Description: {selectedLoan.description}
-              </p>
+              </p> */}
 
-              <p className="mt-2">Amount: ${ethers.formatEther(selectedLoan.amount)}</p>
-              <p className="mt-2">
-                Time Left:{" "}
-                {
-                  loanTimers[
-                    loanRequests.findIndex(
-                      (loan) => loan.id === selectedLoan.id
-                    )
-                  ]
-                }{" "}
-                hours
-              </p>
+              <p className="mt-2">Amount: {(selectedLoan.loan/Math.pow(10,18))} ETH</p>
+              <p className="mt-2">Current Interest: {selectedLoan.percentage}%</p>
               <div className="mt-4">
-                <h4 className="font-semibold">Bids:</h4>
                 {selectedLoan.bids && selectedLoan.bids.length > 0 ? (
-                  selectedLoan.bids.map((bid, index) => (
-                    <div key={index} className="mt-2">
-                      <p>
-                        <span className="font-bold">{bid.name}</span>: {bid.roi}
-                        % ROI
-                      </p>
-                    </div>
-                  ))
+                  <p>
+                  <span className="font-semibold">{selectedLoan.bids.length} bids</span> 
+                </p>
                 ) : (
                   <p>No bids yet.</p>
                 )}
               </div>
               <div className="mt-4">
-                <input
-                  type="number"
-                  placeholder="Enter ROI"
-                  value={roiBid}
-                  onChange={(e) => setRoiBid(e.target.value)}
-                  className="w-full text-black p-2 rounded-lg border border-gray-300"
-                />
                 <button
-                  onClick={() => handleSubmitBid(selectedLoan.id)}
-                  className="mt-4 w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                  onClick={() => handleSubmitBid(selectedLoan._id)}
+                  className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
                   Submit/Update Bid
                 </button>
