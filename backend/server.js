@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const loanRoutes = require('./routes/loanRoutes');
+const cors = require('cors'); 
 require('./corn');  
 
 const app = express();
-
+app.use(cors());
 
 mongoose.connect('mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5k5y.mongodb.net/')
     .then(() => console.log('Connected to MongoDB'))
@@ -13,7 +14,7 @@ mongoose.connect('mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5
 
 app.use(bodyParser.json());
 
-app.use('/api', loanRoutes);
+app.use('/api/loan', loanRoutes);
 
 const port = 5000;
 app.listen(port, () => {

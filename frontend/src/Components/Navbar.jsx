@@ -6,7 +6,7 @@ export const Navbar = () => {
   const navigation = [];
   const context = useWalletContract();
   const { isConnected, connectWallet } = context;
-  console.log(context);
+  // console.log(context);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="sm:px-[0px] bg-indigo-700 border-b-[1px] mb-10 border-white">
@@ -14,7 +14,7 @@ export const Navbar = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="ml-24 flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
+          className="ml-24 flex items-center justify-center space-x-2 text-2xl font-medium dark:text-gray-100"
         >
           <img
             src="/logo.png" // Update this path to your logo image
