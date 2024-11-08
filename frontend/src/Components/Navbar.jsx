@@ -9,12 +9,12 @@ export const Navbar = () => {
   console.log(context);
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full px-[100px] sm:px-[0px] bg-black border-b-[1px] mb-10 border-white">
+    <div className="sm:px-[0px] bg-[#353944] border-b-[1px] mb-10 border-white">
       <nav className="container relative flex flex-wrap items-center justify-between py-8 lg:justify-between xl:px-1">
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
+          className="ml-5 flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
         >
           <img
             src="/logo.png" // Update this path to your logo image
