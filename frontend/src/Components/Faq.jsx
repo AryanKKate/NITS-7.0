@@ -9,7 +9,7 @@ const SectionTitle = ({ preTitle, title, children }) => {
         {preTitle}
       </h4>
       <h2 className="mt-2 text-3xl font-bold text-white">{title}</h2>
-      <p className="mt-4 text-lg text-white">{children}</p>
+      <p className="mt-5 text-lg text-white">{children}</p>
     </div>
   );
 };
@@ -17,22 +17,22 @@ const SectionTitle = ({ preTitle, title, children }) => {
 // FAQ data
 const faqdata = [
   {
-    question: "Is this template completely free to use?",
-    answer: "Yes, this template is completely free to use.",
+    question: "How can local communities avail benefits from Credly?",
+    answer: "The platform encourages community involvement through Self-Help Groups (SHGs) and peer-to-peer lending models, creating a community-based trust system.",
   },
   {
-    question: "Can I use it in a commercial project?",
-    answer: "Yes, you can.",
+    question: "How does the credit scoring system work for individuals with limited financial history?",
+    answer: "Our platform develops credit scores based on alternative data sources, such as transaction history, savings habits, and repayment patterns within the community. By evaluating these factors, we can create a more comprehensive and inclusive credit profile for individuals who may not have access to traditional banking services.",
   },
   {
-    question: "What is your refund policy?",
+    question: "How does the platform ensure loan repayment?",
     answer:
-      "If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked.",
+      "The platform incorporates community-based support and peer monitoring, especially within SHGs or peer-to-peer networks. Repayment reminders are sent via SMS, and local partnerships help maintain close communication with borrowers.",
   },
   {
-    question: "Do you offer technical support?",
+    question: "What role do local partnerships play in this lending model?",
     answer:
-      "No, we don't offer technical support for free downloads. Please purchase a support plan to get 6 months of support.",
+      "Local partnerships with community organizations, NGOs, and local financial institutions help us reach and support rural borrowers effectively. These partnerships assist in digital literacy training, onboarding, and guiding borrowers through the process.",
   },
 ];
 
@@ -45,10 +45,9 @@ const Faq = () => {
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-8">
       <SectionTitle preTitle="FAQ" title="Frequently Asked Questions">
-        Answer your customers' possible questions here; it will increase the
-        conversion rate as well as support or chat requests.
+       
       </SectionTitle>
       <div className="!p-0">
         <div className="w-full max-w-2xl p-2 mx-auto rounded-2xl">

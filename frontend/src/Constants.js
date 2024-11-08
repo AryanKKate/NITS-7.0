@@ -482,7 +482,7 @@ export const microLoansAbi=[
     }
   ]
 
-export const microLoansAddress="0x06BA466AE90436B7eb6de1a1bAcaF06000a307e8"
+export const microLoansAddress="0xCEf7765a410C50457f6F06614Cdc0f0eE7B9340A"
 
 export const communityFactoryAddress="0x3CA6Ab82C481248a1eA1e89CCa7cb8A3d4f4D82b"
 

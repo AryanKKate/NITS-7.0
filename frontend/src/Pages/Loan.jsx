@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../Components/Navbar";
 import { useWalletContract } from "../Context/WalletProvider";
 import { ethers } from "ethers";
+import axiosInstance from "../AxiosInstance";
 
 function Loan() {
   const {
@@ -17,7 +18,6 @@ function Loan() {
       connectWallet();
     }
   }, [isConnected]);
-
   const types = {
     personal: 0,
     business: 1,
@@ -47,9 +47,12 @@ function Loan() {
         loanAmount,
         types[formData.type],
         formData.description,
-        formData.roi // Pass the ROI along with other loan data
       );
       console.log(res);
+      const userLoans=await microLoansContract.getUserRequestedLoans()
+      console.log(userLoans.length)
+      const result=await axiosInstance.post("/loan", {userLoan: loanAmount.toString(), userPercentage:formData.roi, loanIndex: userLoans.length})
+      console.log(result)
     } catch (err) {
       console.log(err);
     }

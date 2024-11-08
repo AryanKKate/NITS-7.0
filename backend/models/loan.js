@@ -7,7 +7,7 @@ const bidSchema = new mongoose.Schema({
     bidOpenAt: { type: Date, default: Date.now },
     bidCloseAt: { type: Date },
     bidAt: { type: Date, default: Date.now },
-    status: { type: String, enum: ['open', 'closed'], default: 'open' },  
+    status: { type: String, enum: ['open', 'closed'], default: 'open' }, 
 });
 
 const loanSchema = new mongoose.Schema({
@@ -19,7 +19,8 @@ const loanSchema = new mongoose.Schema({
     returnOnLoan: { type: Number, required: true },
     totalLoanValue: { type: Number, required: true },
     bids: [bidSchema],  
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    loanIndex: { type: Number, required: true}
 });
 
 const Loan = mongoose.model('Loan', loanSchema);

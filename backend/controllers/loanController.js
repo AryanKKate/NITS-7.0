@@ -32,7 +32,7 @@ exports.bid_count = async (req, res) => {
 
 exports.setLoan = async (req, res) => {
     try {
-        const { loan: userLoan, percentage: userPercentage } = req.body;
+        const { userLoan, userPercentage, loanIndex } = req.body;
         
         const newLoan = new Loan({
             loan: userLoan,
@@ -42,7 +42,8 @@ exports.setLoan = async (req, res) => {
             paidAmount: 0,
             returnOnLoan: 0,
             totalLoanValue: userLoan,
-            bids: []
+            bids: [],
+            loanIndex: loanIndex
         });
 
         await newLoan.save();
@@ -54,6 +55,11 @@ exports.setLoan = async (req, res) => {
         res.status(500).json({ message: "Error creating loan", error: err });
     }
 };
+
+exports.getLoan=async(req, res) =>{
+    const loans=await Loan.find({})
+    res.json(loans)
+}
 
 exports.bid = async (req, res) => {
     try {
