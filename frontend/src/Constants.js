@@ -97,6 +97,116 @@ export const microLoansAbi=[
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getAllApprovedLoans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum MicroLoans.Type",
+              "name": "typeOfLoan",
+              "type": "uint8"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "interestRate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "paidAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "monthlyPayment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "nextPaymentDue",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "borrower",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "lender",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct MicroLoans.ApprovedLoan[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllRequestedLoans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum MicroLoans.Type",
+              "name": "typeOfLoan",
+              "type": "uint8"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "requester",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct MicroLoans.RequestedLoan[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -142,6 +252,11 @@ export const microLoansAbi=[
               "internalType": "enum MicroLoans.Status",
               "name": "st",
               "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "credit",
+              "type": "uint256"
             },
             {
               "internalType": "uint256",
@@ -271,6 +386,11 @@ export const microLoansAbi=[
               "internalType": "string",
               "name": "description",
               "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "requester",
+              "type": "address"
             }
           ],
           "internalType": "struct MicroLoans.RequestedLoan[]",
@@ -337,7 +457,7 @@ export const microLoansAbi=[
     }
   ]
 
-export const microLoansAddress="0x6FFa322E393d338bab9055C9a8bC56d8e5b6fEe8"
+export const microLoansAddress="0x3480cDabDCF3e2C5EE4B27839FB2cb583cF65eD8"
 
 export const communityFactoryAddress="0x3CA6Ab82C481248a1eA1e89CCa7cb8A3d4f4D82b"
 
