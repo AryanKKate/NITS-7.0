@@ -1,4 +1,3 @@
-// import { BrowserRouter } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import { WalletContractProvider } from "./Context/WalletProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
