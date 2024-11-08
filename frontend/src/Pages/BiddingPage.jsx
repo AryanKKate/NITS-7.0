@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "../Components/Navbar";
-
-// Sample Loan Requests with 3 types
+import { useNavigate } from "react-router-dom";
+import { useWalletContract } from "../Context/WalletProvider";
+import {ethers} from "ethers"
 const loanRequests = [
   {
     id: 1,
@@ -12,7 +13,7 @@ const loanRequests = [
       { name: "User1", roi: 5 },
       { name: "User2", roi: 6 },
     ],
-    timer: 24, // Timer in hours
+    timer: 24,
   },
   {
     id: 2,
@@ -21,12 +22,12 @@ const loanRequests = [
     bids: [{ name: "User3", roi: 4 }],
     timer: 12,
   },
-  // Add other loan objects here...
 ];
 
 const BiddingPage = () => {
-  const [filteredLoans, setFilteredLoans] = useState(loanRequests);
+  const [filteredLoans, setFilteredLoans] = useState([]);
   const [loanTypeFilter, setLoanTypeFilter] = useState("All");
+  const [loanRequests, setLoanRequests]=useState([])
   const [amountFilter, setAmountFilter] = useState("");
   const [roiBid, setRoiBid] = useState("");
   const [selectedLoan, setSelectedLoan] = useState(null);
@@ -34,8 +35,29 @@ const BiddingPage = () => {
   const [loanTimers, setLoanTimers] = useState(
     loanRequests.map((loan) => loan.timer)
   );
+  const types={
+    0:"Pending",
+    1:"Business",
+    2:"Student"
+  }
+  const navigate=useNavigate()
+  const {isConnected, walletAddress, microLoansContract, connectWallet}=useWalletContract();
+  useEffect(()=>{
+    const fetchRequsts=async()=>{
+      if(!isConnected){
+        await connectWallet()
+      }
+      if(microLoansContract){
+        const res=await microLoansContract.getAllRequestedLoans()
+        console.log(ethers.formatEther(res[0].amount))
+        setLoanRequests(res)
+        setFilteredLoans(res)
+      }
+      else{console.log('gg')}
+    }
+    fetchRequsts()
+  },[isConnected])
 
-  // Handle countdown timer for each loan
   useEffect(() => {
     const interval = setInterval(() => {
       setLoanTimers((prevTimers) =>
@@ -48,12 +70,10 @@ const BiddingPage = () => {
   const handleSearch = () => {
     let filtered = loanRequests;
 
-    // Filter by loan type
     if (loanTypeFilter !== "All") {
       filtered = filtered.filter((loan) => loan.loanType === loanTypeFilter);
     }
 
-    // Filter by amount (only if the amount filter is provided)
     if (amountFilter) {
       filtered = filtered.filter(
         (loan) => loan.amount <= parseInt(amountFilter)
@@ -63,29 +83,24 @@ const BiddingPage = () => {
     setFilteredLoans(filtered);
   };
 
-  // Handle bid submission or update
   const handleSubmitBid = (loanId) => {
-    const currentUser = "CurrentUser"; // Replace with actual user ID from authentication
+    const currentUser = "CurrentUser";
     const newRoi = parseFloat(roiBid);
 
-    // Update bid if user already has one
     const newLoanRequests = loanRequests.map((loan) => {
       if (loan.id === loanId) {
         const existingBidIndex = loan.bids.findIndex(
           (bid) => bid.name === currentUser
         );
         if (existingBidIndex > -1) {
-          // Update existing bid
           loan.bids[existingBidIndex].roi = newRoi;
         } else {
-          // Add new bid
           loan.bids.push({ name: currentUser, roi: newRoi });
         }
       }
       return loan;
     });
 
-    console.log("Updated Loan Requests:", newLoanRequests);
     setRoiBid("");
     setSelectedLoan(null);
     setUserBids((prev) => ({
@@ -96,17 +111,14 @@ const BiddingPage = () => {
 
   return (
     <div className="bg-gray-800">
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
+
       <div className="bg-gray-800 min-h-screen p-8">
-        {/* Search Bar */}
         <h1 className="text-4xl font-semibold text-center text-white mb-8">
           Loan Bidding
         </h1>
         <div className="mb-8 flex justify-between items-center">
           <div className="flex space-x-4">
-            {/* Amount Filter */}
             <input
               type="number"
               placeholder="Max Amount"
@@ -114,7 +126,6 @@ const BiddingPage = () => {
               onChange={(e) => setAmountFilter(e.target.value)}
               className="px-4 py-2 rounded-lg border-2 text-gray-900"
             />
-            {/* Loan Type Filter */}
             <select
               onChange={(e) => setLoanTypeFilter(e.target.value)}
               value={loanTypeFilter}
@@ -133,9 +144,9 @@ const BiddingPage = () => {
             </button>
           </div>
         </div>
-        {/* Loan Requests */}
+
         <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-          {filteredLoans.map((loan, index) => (
+          {filteredLoans.map((loan) => (
             <motion.div
               key={loan.id}
               className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
@@ -143,18 +154,48 @@ const BiddingPage = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-semibold">{loan.loanType}</h3>
-              <p className="mt-2 text-lg">Amount: ${loan.amount}</p>
-              <p className="mt-2 text-sm">
-                Time Left: {loanTimers[index]} hours
+              <h3 className="text-2xl font-semibold">{types[ethers.formatUnits(loan.typeOfLoan, 0)]} Loan</h3>
+              <p className="mt-2 text-lg">Amount: {ethers.formatEther(loan.amount)} ETH</p>
+
+              <button
+                onClick={() => setSelectedLoan(loan)}
+                className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              >
+                View/Place Bid
+              </button>
+            </motion.div>
+          ))}
+        </div>
+
+        {selectedLoan && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white text-black p-8 rounded-lg shadow-lg w-1/2">
+              <h3 className="text-2xl font-semibold">
+                {types[ethers.formatUnits(selectedLoan.typeOfLoan, 0)]} Details
+              </h3>
+              <p className="mt-2">
+                Description: {selectedLoan.description}
+              </p>
+
+              <p className="mt-2">Amount: ${ethers.formatEther(selectedLoan.amount)}</p>
+              <p className="mt-2">
+                Time Left:{" "}
+                {
+                  loanTimers[
+                    loanRequests.findIndex(
+                      (loan) => loan.id === selectedLoan.id
+                    )
+                  ]
+                }{" "}
+                hours
               </p>
               <div className="mt-4">
                 <h4 className="font-semibold">Bids:</h4>
-                {loan.bids.length > 0 ? (
-                  loan.bids.map((bid, index) => (
+                {selectedLoan.bids && selectedLoan.bids.length > 0 ? (
+                  selectedLoan.bids.map((bid, index) => (
                     <div key={index} className="mt-2">
                       <p>
-                        <span className="font-bold">{bid.name}</span>: {bid.roi}{" "}
+                        <span className="font-bold">{bid.name}</span>: {bid.roi}
                         % ROI
                       </p>
                     </div>
@@ -163,37 +204,30 @@ const BiddingPage = () => {
                   <p>No bids yet.</p>
                 )}
               </div>
-
-              {/* Button for Viewing and Placing a Bid */}
-              <div className="mt-4 flex justify-between items-center">
+              <div className="mt-4">
+                <input
+                  type="number"
+                  placeholder="Enter ROI"
+                  value={roiBid}
+                  onChange={(e) => setRoiBid(e.target.value)}
+                  className="w-full text-black p-2 rounded-lg border border-gray-300"
+                />
                 <button
-                  onClick={() => setSelectedLoan(loan.id)}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                  onClick={() => handleSubmitBid(selectedLoan.id)}
+                  className="mt-4 w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                 >
-                  View/Place Bid
+                  Submit/Update Bid
                 </button>
-
-                {selectedLoan === loan.id && (
-                  <div className="mt-4">
-                    <input
-                      type="number"
-                      placeholder="Enter ROI"
-                      value={roiBid}
-                      onChange={(e) => setRoiBid(e.target.value)}
-                      className="w-full text-black p-2 rounded-lg border border-gray-300"
-                    />
-                    <button
-                      onClick={() => handleSubmitBid(loan.id)}
-                      className="mt-4 w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                    >
-                      Submit/Update Bid
-                    </button>
-                  </div>
-                )}
               </div>
-            </motion.div>
-          ))}
-        </div>
+              <button
+                onClick={() => setSelectedLoan(null)}
+                className="mt-4 w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
