@@ -37,13 +37,13 @@ export const Hero = () => {
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
               <motion.button
-                onClick={() => navigate("/kyc")}
+                onClick={() => navigate("/loan")}
                 className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md"
                 whileHover={{ scale: 1.05 }} // Scale on hover
                 whileTap={{ scale: 0.95 }} // Scale down on click
                 transition={{ duration: 0.2 }}
               >
-                Get Started
+                Get Loan
               </motion.button>
             </div>
           </div>
