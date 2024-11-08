@@ -7,7 +7,7 @@ export const Hero = () => {
   return (
     <>
       <motion.div
-        className="flex flex-wrap bg-gray-800"
+        className="flex flex-wrap bg-gray-900"
         initial={{ opacity: 0, y: -50 }} // Initial state
         animate={{ opacity: 1, y: 0 }} // Animation when mounted
         exit={{ opacity: 0, y: 50 }} // Animation when unmounted
@@ -16,7 +16,7 @@ export const Hero = () => {
         <div className="flex items-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8 ml-24">
             <motion.h1
-              className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-400"
+              className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-700"
               initial={{ opacity: 0, y: 20 }} // Initial state for heading
               animate={{ opacity: 1, y: 0 }} // Animation when heading appears
               transition={{ duration: 0.5 }}
