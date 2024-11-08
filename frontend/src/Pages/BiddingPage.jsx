@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "../Components/Navbar";
-
+import { useNavigate } from "react-router-dom";
+import { useWalletContract } from "../Context/WalletProvider";
+import {ethers} from "ethers"
 const loanRequests = [
   {
     id: 1,
@@ -23,8 +25,9 @@ const loanRequests = [
 ];
 
 const BiddingPage = () => {
-  const [filteredLoans, setFilteredLoans] = useState(loanRequests);
+  const [filteredLoans, setFilteredLoans] = useState([]);
   const [loanTypeFilter, setLoanTypeFilter] = useState("All");
+  const [loanRequests, setLoanRequests]=useState([])
   const [amountFilter, setAmountFilter] = useState("");
   const [roiBid, setRoiBid] = useState("");
   const [selectedLoan, setSelectedLoan] = useState(null);
@@ -32,6 +35,28 @@ const BiddingPage = () => {
   const [loanTimers, setLoanTimers] = useState(
     loanRequests.map((loan) => loan.timer)
   );
+  const types={
+    0:"Pending",
+    1:"Business",
+    2:"Student"
+  }
+  const navigate=useNavigate()
+  const {isConnected, walletAddress, microLoansContract, connectWallet}=useWalletContract();
+  useEffect(()=>{
+    const fetchRequsts=async()=>{
+      if(!isConnected){
+        await connectWallet()
+      }
+      if(microLoansContract){
+        const res=await microLoansContract.getAllRequestedLoans()
+        console.log(ethers.formatEther(res[0].amount))
+        setLoanRequests(res)
+        setFilteredLoans(res)
+      }
+      else{console.log('gg')}
+    }
+    fetchRequsts()
+  },[isConnected])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -129,8 +154,8 @@ const BiddingPage = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-semibold">{loan.loanType}</h3>
-              <p className="mt-2 text-lg">Amount: ${loan.amount}</p>
+              <h3 className="text-2xl font-semibold">{types[ethers.formatUnits(loan.typeOfLoan, 0)]} Loan</h3>
+              <p className="mt-2 text-lg">Amount: {ethers.formatEther(loan.amount)} ETH</p>
 
               <button
                 onClick={() => setSelectedLoan(loan)}
@@ -146,9 +171,13 @@ const BiddingPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white text-black p-8 rounded-lg shadow-lg w-1/2">
               <h3 className="text-2xl font-semibold">
-                {selectedLoan.loanType} Details
+                {types[ethers.formatUnits(selectedLoan.typeOfLoan, 0)]} Details
               </h3>
-              <p className="mt-2">Amount: ${selectedLoan.amount}</p>
+              <p className="mt-2">
+                Description: {selectedLoan.description}
+              </p>
+
+              <p className="mt-2">Amount: ${ethers.formatEther(selectedLoan.amount)}</p>
               <p className="mt-2">
                 Time Left:{" "}
                 {
@@ -162,7 +191,7 @@ const BiddingPage = () => {
               </p>
               <div className="mt-4">
                 <h4 className="font-semibold">Bids:</h4>
-                {selectedLoan.bids.length > 0 ? (
+                {selectedLoan.bids && selectedLoan.bids.length > 0 ? (
                   selectedLoan.bids.map((bid, index) => (
                     <div key={index} className="mt-2">
                       <p>

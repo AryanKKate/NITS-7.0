@@ -37,6 +37,7 @@ export const WalletContractProvider = ({ children }) => {
     console.log(signer)
     const contractInstance = new ethers.Contract(microLoansAddress, microLoansAbi, signer);
     setMicroLoansContract(contractInstance);
+    console.log(contractInstance)
   };
 
   useEffect(() => {
