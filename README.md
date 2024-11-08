@@ -19,9 +19,9 @@ Navigate to the frontend folder , install dependencies & start server:
 Navigate to the backend folder & install dependencies & start server: 
 
 ```bash
-   cd frontend
+   cd backend
    npm install
-   npm start
+   nodemon server.js
    ```
 
 Set Up MetaMask:
