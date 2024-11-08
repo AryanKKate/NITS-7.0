@@ -8,6 +8,7 @@ export const Navbar = () => {
   const { isConnected, connectWallet } = context;
   console.log(context);
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="sm:px-[0px] bg-[#353944] border-b-[1px] mb-10 border-white">
       <nav className="container relative flex flex-wrap items-center justify-between py-8 lg:justify-between xl:px-1">
@@ -17,12 +18,11 @@ export const Navbar = () => {
           className="ml-5 flex items-center justify-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
         >
           <img
-            src="/logo.png" // Update this path to your logo image
-            width="32"
+            src="/logo1.png" // Update this path to your logo image
             alt="Logo"
-            className="w-8"
+            className="logo-image w-12 h-auto"  // Initial size for the logo
           />
-          <span className="text-indigo-300">Credify Pro</span>
+          <span className="text-indigo-300">Udaan</span>
         </Link>
 
         {/* Get Started button - only show on medium and larger screens */}
@@ -55,47 +55,6 @@ export const Navbar = () => {
             Get Loan
           </Link>
         </div>
-
-        {/* Hamburger Icon for Mobile - only show on small screens */}
-        {/* <button
-          className="text-white lg:hidden ml-auto"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </button> */}
-
-        {/* Menu - Adjust visibility based on state */}
-        {/* <div
-          className={`${
-            isOpen ? "block" : "hidden"
-          } w-full lg:flex lg:w-auto lg:items-center text-center`}
-        >
-          <ul className="justify-end flex-1 list-none lg:flex lg:pt-0 pt-6">
-            {navigation.map((menu, index) => (
-              <li className="mr-3 nav__item" key={index}>
-                <a
-                  href="/kyc"
-                  className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
-                >
-                  {menu}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>  */}
       </nav>
     </div>
   );

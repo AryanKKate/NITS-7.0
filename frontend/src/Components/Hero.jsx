@@ -21,7 +21,7 @@ export const Hero = () => {
               animate={{ opacity: 1, y: 0 }} // Animation when heading appears
               transition={{ duration: 0.5 }}
             >
-              Credify Pro
+              Udaan
             </motion.h1>
             <motion.div
               className="py-5 leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300"
@@ -29,10 +29,7 @@ export const Hero = () => {
               animate={{ opacity: 1, y: 0 }} // Animation when description appears
               transition={{ duration: 0.5, delay: 0.2 }} // Slight delay for the description
             >
-              Credify Pro is a free landing page and marketing website template
-              designed specifically for startups and indie projects. It provides
-              a sleek and modern design that helps showcase your brand
-              effectively.
+              Udaan provides rural communities with easy access to micro-loans through a secure blockchain-powered platform. By leveraging digital identity verification and community-based lending, we empower small businesses and individuals to grow financially.
             </motion.div>
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
