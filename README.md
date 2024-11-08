@@ -5,6 +5,21 @@
 Clone the repository : 
 ```bash
    git clone https://github.com/AryanKKate/NITS-7.0.git
-   cd VisioNiX
+   cd NITS-7.0
    ```
 
+Navigate to the frontend folder , install dependencies & start server: 
+
+```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+
+Navigate to the backend folder & install dependencies & start server: 
+
+```bash
+   cd frontend
+   npm install
+   npm start
+   ```
