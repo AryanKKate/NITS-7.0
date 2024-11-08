@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-//import { useWalletContract } from "../Context/WalletProvider";
-import { useState } from "react";
+import { useWalletContract } from "../Context/WalletProvider";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const navigation = [];
-  //const context = useWalletContract();
-
+  const context = useWalletContract();
+  const { isConnected, connectWallet } = context;
+  console.log(context);
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className="w-full px-[100px] sm:px-[0px] bg-black border-b-[1px] mb-10 border-white">
       <nav className="container relative flex flex-wrap items-center justify-between py-8 lg:justify-between xl:px-1">
@@ -48,9 +48,9 @@ export const Navbar = () => {
           <Link
             to="/loan"
             className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5"
-            // onClick={() => {
-            //   connectWallet;
-            // }}
+            onClick={() => {
+              connectWallet;
+            }}
           >
             Get Loan
           </Link>
