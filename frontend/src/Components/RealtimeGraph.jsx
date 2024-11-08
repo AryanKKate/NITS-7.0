@@ -9,7 +9,7 @@ ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, T
 const LoanPercentageChart = () => {
     const [percentageData, setPercentageData] = useState([]);  
     const [timeLabels, setTimeLabels] = useState([]);  
-    const [loanId, setLoanId] = useState('672e158e279ba482fd4932ee');  
+    const [loanId, setLoanId] = useState('672e2b16ba7a494c5c793b64');  
     const [loading, setLoading] = useState(false);  
     const [error, setError] = useState('');  
 
