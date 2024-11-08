@@ -67,18 +67,16 @@ export function Footer() {
               className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
             >
               <img
-                src="/logo.png"
+                src="/logo1.png"
                 alt="N"
-                width="32"
-                height="32"
+                width="100"
+                height="100"
                 className="w-8"
               />
-              <span>Credify Pro</span>
+              <span>Udaan</span>
             </a>
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
-              Credify Pro is a free landing page & marketing website template
-              for startups and indie projects. It's built with Next.js &
-              TailwindCSS. And it's completely open-source.
+            Udaan empowers rural communities with access to micro-loans through a secure, blockchain-powered platform. By leveraging digital identity verification and local partnerships, we make financing simple and trustworthy, helping small businesses and individuals build credit and grow within their communities.
             </div>
           </div>
 
@@ -111,17 +109,17 @@ export function Footer() {
             <div className="text-gray-500 dark:text-gray-400">Follow us</div>
             <div className="flex justify-center mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               <SocialLink
-                href="https://twitter.com/web3templates"
+                href="https://twitter.com/"
                 icon={<Twitter />}
                 label="Twitter"
               />
               <SocialLink
-                href="https://facebook.com/web3templates"
+                href="https://facebook.com/"
                 icon={<Facebook />}
                 label="Facebook"
               />
               <SocialLink
-                href="https://instagram.com/web3templates"
+                href="https://instagram.com/"
                 icon={<Instagram />}
                 label="Instagram"
               />
@@ -136,11 +134,8 @@ export function Footer() {
 
         {/* Copyright Notice */}
         <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
-          Copyright © {new Date().getFullYear()}. Made with ♥ by Illustrations
-          from{" "}
-          <a href="https://www.glazestock.com/" target="_blank" rel="noopener">
-            Glazestock
-          </a>
+          Copyright © {new Date().getFullYear()}. Made with ♥ by 5DNC
+        
         </div>
       </div>
     </div>
