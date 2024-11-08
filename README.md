@@ -3,7 +3,8 @@
 <h2> How to Install </h2>
 
 Clone the repository : 
- '''bash
- git clone https://github.com/AryanKKate/NITS-7.0.git
- '''
+```bash
+   git clone https://github.com/AryanKKate/NITS-7.0.git
+   cd VisioNiX
+   ```
 
