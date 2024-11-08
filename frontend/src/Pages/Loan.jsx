@@ -3,7 +3,7 @@ import { Navbar } from "../Components/Navbar";
 
 function Loan() {
   return (
-    <div className="flex flex-col bg-[#212129] min-h-screen w-full">
+    <div className="flex flex-col bg-gray-800 min-h-screen w-full">
       <div>
         <Navbar />
       </div>

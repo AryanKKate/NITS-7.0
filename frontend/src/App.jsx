@@ -2,6 +2,7 @@ import Landing from "./Pages/Landing";
 import { WalletContractProvider } from "./Context/WalletProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loan from "./Pages/Loan";
+import BiddingPage from "./Pages/BiddingPage";
 
 function App() {
   return (
@@ -11,9 +12,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/loan" element={<Loan />} />
-            {/*<Route path="/form" element={<Forms />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route path="/bidding" element={<BiddingPage />} />
           </Routes>
         </BrowserRouter>
       </div>
