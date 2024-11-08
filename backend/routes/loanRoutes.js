@@ -6,4 +6,6 @@ router.post('/loan', loanController.setLoan);
 
 router.post('/bid', loanController.bid);
 
+router.post("/bid_counts",loanController.bid_count )
+
 module.exports = router;
