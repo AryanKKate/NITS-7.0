@@ -67,13 +67,13 @@ export function Footer() {
               className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
             >
               <img
-                src="/logo.png"
+                src="/logo1.png"
                 alt="N"
-                width="32"
-                height="32"
+                width="100"
+                height="100"
                 className="w-8"
               />
-              <span>Credify Pro</span>
+              <span>Udaan</span>
             </a>
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
             Udaan empowers rural communities with access to micro-loans through a secure, blockchain-powered platform. By leveraging digital identity verification and local partnerships, we make financing simple and trustworthy, helping small businesses and individuals build credit and grow within their communities.
