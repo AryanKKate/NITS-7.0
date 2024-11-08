@@ -15,6 +15,9 @@ contract MicroLoans {
         Status st;
         uint256 credit;
         uint256 strikes;
+        uint256 income;
+        uint256 savings;
+        uint256 debt;
     }
 
     struct RequestedLoan {
@@ -61,9 +64,11 @@ contract MicroLoans {
         string memory city,
         string memory addr,
         string memory adhar_num,
-        string memory image
+        string memory image,
+        uint256 _income,
+        uint256 _savings
     ) public {
-        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0, 0);
+        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0, 0, _income, _savings, 0);
     }
 
     function approveKYC(address person) public {
@@ -133,7 +138,7 @@ contract MicroLoans {
         require(payment == requestedLoan.amount, "Please send the exact amount");
         bool success = payable(msg.sender).send(payment);
         require(success, "Payment Failed");
-
+        kycData[borrower].debt+=totalAmount;
         userApprovedLoans[msg.sender].push(newLoan);
         allApprovedLoans.push(newLoan);  // Add to global list
 
@@ -153,6 +158,7 @@ contract MicroLoans {
         require(success, "Payment failed");
 
         kycData[msg.sender].credit += 2;
+        kycData[msg.sender].debt-=payment;
         loan.paidAmount += payment;
         loan.nextPaymentDue += 30 days;
 

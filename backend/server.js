@@ -1,27 +1,21 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
-const loanRoutes = require('./routes/loanRoutes');  
+const bodyParser = require('body-parser');
+const loanRoutes = require('./routes/loanRoutes');
+require('./corn');  
 
 const app = express();
 
 
-const mongoURI = 'mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5k5y.mongodb.net/'; 
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected'))
-.catch((err) => console.error('MongoDB connection error:', err));
+mongoose.connect('mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5k5y.mongodb.net/')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.log('Error connecting to MongoDB:', err));
 
+app.use(bodyParser.json());
 
-app.use(express.json());  
+app.use('/api', loanRoutes);
 
-
-app.use('/api', loanRoutes);  
-
-
-const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = 5000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
