@@ -17,7 +17,7 @@ const SectionTitle = ({ preTitle, title, children }) => {
 // Testimonials Component
 export const Testimonials = () => {
   return (
-    <div>
+    <div className="px-14">
       <SectionTitle
         preTitle="Testimonials"
         title="Here's what our customers said"
@@ -28,7 +28,7 @@ export const Testimonials = () => {
       <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
         <TestimonialCard
           quote="It was an exhilarating experience to pull and push the cash. To get the cash in form of credits."
-          name="shushma rajit"
+          name="Shushma Rajit"
           title="Chief Technical Officer at Credify Pro"
           image="https://nextly.web3templates.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fuser1.71c84e11.jpg&w=48&q=75"
         />
@@ -62,9 +62,8 @@ const TestimonialCard = ({ quote, name, title, image }) => {
       animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 60 }}
       transition={{ duration: 0.5 }}
     >
-      <p className="text-2xl leading-normal text-white overflow-hidden whitespace-nowrap overflow-ellipsis">
-        {quote}
-      </p>
+      {/* Quote Text */}
+      <p className="text-2xl leading-normal text-white">{quote}</p>
       <Avatar image={image} name={name} title={title} />
     </motion.div>
   );
@@ -91,7 +90,7 @@ function Avatar({ image, name, title }) {
   );
 }
 
-// Mark Component
+// Mark Component (optional)
 function Mark({ children }) {
   return (
     <mark className="text-white bg-white rounded-md ring-white ring-4 dark:ring-indigo-900 dark:bg-indigo-900 dark:text-indigo-200">

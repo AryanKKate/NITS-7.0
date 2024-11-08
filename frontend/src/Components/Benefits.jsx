@@ -43,7 +43,7 @@ export const Benefits = () => {
   };
 
   return (
-    <div className="pt-10 flex flex-wrap mb-20 lg:gap-10 lg:flex-nowrap">
+    <div className="pr-10 pt-10 flex flex-wrap mb-20 lg:gap-10 lg:flex-nowrap">
       <div
         className={`flex items-center justify-center w-full lg:w-1/2 ${
           content.imgPos === "right" ? "lg:order-1" : ""
