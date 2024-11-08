@@ -1,9 +1,20 @@
 import Landing from "./Pages/Landing";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Loan from "./Pages/Loan";
+
 
 function App() {
   return (
-    <div>
-      <Landing />
+    <div className="min-h-screen">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/loan" element={<Loan />} />
+          {/*<Route path="/form" element={<Forms />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/dashboard" element={<Dashboard />} /> */}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export const Navbar = () => {
   const navigation = [];
-  const context = useWalletContract();
+  //const context = useWalletContract();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,29 +30,29 @@ export const Navbar = () => {
           <Link
             to="/upload"
             className="px-6 py-2 text-white rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            // onClick={() => {
+            //   connectWallet;
+            // }}
           >
             Upload
           </Link>
           <Link
             to="/dashboard"
             className="px-6 py-2 text-white rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            // onClick={() => {
+            //   connectWallet;
+            // }}
           >
             Dashboard
           </Link>
           <Link
-            to="/kyc"
+            to="/loan"
             className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            // onClick={() => {
+            //   connectWallet;
+            // }}
           >
-            Get Started
+            Get Loan
           </Link>
         </div>
 
