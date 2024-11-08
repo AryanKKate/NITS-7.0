@@ -5,35 +5,52 @@ function generateUniqueBits() {
     return Math.random() * 100;
 }
 
-function adjustPriceBasedOnDemandSupply(loan, buyDemand) {
-    const demandEffect = buyDemand * 2;
-    const adjustedPrice = loan + demandEffect;
-    return adjustedPrice;
+function adjustPriceBasedOnDemandSupply(loanAmount, buyDemand) {
+    return loanAmount + (buyDemand * 2);
 }
 
 exports.bid_count = async (req, res) => {
     try {
         const { loanId } = req.body;
-        
+
         const loan = await Loan.findById(loanId);
         if (!loan) {
             return res.status(404).json({ message: 'Loan not found' });
         }
-        
+
         const bidCount = loan.bidCount;
         res.json({
             message: 'Bid count retrieved successfully.',
-            bidCount: bidCount
+            bidCount
         });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching bid count", error: error });
+        res.status(500).json({ message: "Error fetching bid count", error });
+    }
+};
+
+exports.getPercentage = async (req, res) => {
+    try {
+        const { loanId } = req.body;
+
+        const loan = await Loan.findById(loanId);
+        if (!loan) {
+            return res.status(404).json({ message: 'Loan not found' });
+        }
+
+        const percentage = loan.percentage;
+        res.json({
+            message: 'Percentage retrieved successfully.',
+            percentage
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching loan percentage", error: err });
     }
 };
 
 exports.setLoan = async (req, res) => {
     try {
         const { loan: userLoan, percentage: userPercentage } = req.body;
-        
+
         const newLoan = new Loan({
             loan: userLoan,
             percentage: userPercentage,
@@ -59,20 +76,19 @@ exports.bid = async (req, res) => {
     try {
         const { loanId } = req.body;
         const uniqueBits = generateUniqueBits();
-        
+
         const bidOpenAt = moment().toDate();
         const bidCloseAt = moment().add(30, 'minutes').toDate();
         const loan = await Loan.findById(loanId);
-        
+
         if (!loan) {
             return res.status(404).json({ message: 'Loan not found' });
         }
 
         const updatedLoan = adjustPriceBasedOnDemandSupply(loan.loan, loan.buyDemand + uniqueBits);
-        
         const updatedPercentage = loan.percentage - (uniqueBits / 100);
-        const paidAmount = updatedPercentage - loan.percentage;
-        const returnOnLoan = updatedLoan * updatedPercentage / 100;
+        const paidAmount = loan.percentage - updatedPercentage;
+        const returnOnLoan = (updatedLoan * updatedPercentage) / 100;
         const totalLoanValue = updatedLoan + returnOnLoan;
 
         const newBid = {

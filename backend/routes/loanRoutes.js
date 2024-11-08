@@ -8,4 +8,6 @@ router.post('/bid', loanController.bid);
 
 router.post("/bid_counts",loanController.bid_count )
 
+router.post('/loan/percentage', loanController.getPercentage)
+
 module.exports = router;

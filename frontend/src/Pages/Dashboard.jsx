@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "../Components/Navbar";
+import RealTimeGraph from "../Components/RealtimeGraph";
 
 // Sample loan data for the dashboard
 const userLoans = [
@@ -49,6 +50,7 @@ function Dashboard() {
   return (
     <div className="bg-gray-800 min-h-screen">
       <Navbar />
+      <RealTimeGraph/>
       <div className="px-6 py-12">
         <h1 className="text-4xl font-semibold text-center text-white mb-8">
           Your Loans
@@ -100,5 +102,7 @@ function Dashboard() {
     </div>
   );
 }
+
+
 
 export default Dashboard;
