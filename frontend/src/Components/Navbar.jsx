@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 export const Navbar = () => {
   const navigation = [];
   const context = useWalletContract();
-  const {isConnected, connectWallet}=context
-  console.log(context)
+  const { isConnected, connectWallet } = context;
+  console.log(context);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full px-[100px] sm:px-[0px] bg-black border-b-[1px] mb-10 border-white">
       <nav className="container relative flex flex-wrap items-center justify-between py-8 lg:justify-between xl:px-1">
-        
         {/* Logo */}
         <Link
           to="/"
@@ -31,30 +30,30 @@ export const Navbar = () => {
           <Link
             to="/upload"
             className="px-6 py-2 text-white rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            // onClick={() => {
+            //   connectWallet;
+            // }}
           >
             Upload
           </Link>
           <Link
             to="/dashboard"
             className="px-6 py-2 text-white rounded-md md:ml-5"
+            // onClick={() => {
+            //   connectWallet;
+            // }}
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/loan"
+            className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5"
             onClick={() => {
               connectWallet;
             }}
           >
-            Dashboard
+            Get Loan
           </Link>
-          <button
-            // to="/kyc"
-            className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet();
-            }}
-          >
-            Get Started
-          </button>
         </div>
 
         {/* Hamburger Icon for Mobile - only show on small screens */}
