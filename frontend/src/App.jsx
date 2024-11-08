@@ -3,6 +3,8 @@ import { WalletContractProvider } from "./Context/WalletProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loan from "./Pages/Loan";
 import BiddingPage from "./Pages/BiddingPage";
+import Dashboard from "./Pages/Dashboard";
+import KYC from "./Pages/KYC";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/loan" element={<Loan />} />
             <Route path="/bidding" element={<BiddingPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/kyc" element={<KYC />} />
           </Routes>
         </BrowserRouter>
       </div>
