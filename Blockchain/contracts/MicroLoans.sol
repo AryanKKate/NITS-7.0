@@ -86,11 +86,11 @@ contract MicroLoans {
     }
 
     function approveLoan(
-        address lender,
+        address borrower,
         uint256 loanIndex,
         uint256 duration,
         uint256 interestRate
-    ) public {
+    ) public payable {
         RequestedLoan memory requestedLoan = userRequestedLoans[msg.sender][loanIndex];
 
         uint256 totalInterest = (requestedLoan.amount * interestRate * duration) / (100 * 12);
@@ -107,11 +107,14 @@ contract MicroLoans {
             paidAmount: 0,
             monthlyPayment: monthlyPayment,
             nextPaymentDue: block.timestamp + 30 days,
-            borrower: msg.sender,
-            lender: lender,
+            borrower: borrower,
+            lender: msg.sender,
             isActive: true
         });
-
+        uint256 payment=msg.value;
+        require(payment==requestedLoan.amount, "Please send the exact amount");
+        bool success=payable(msg.sender).send(payment);
+        require(success, "Payment Failed");
         userApprovedLoans[msg.sender].push(newLoan);
 
         
@@ -127,6 +130,8 @@ contract MicroLoans {
 
     uint256 payment = msg.value;
     require(payment >= loan.monthlyPayment, "Insufficient payment amount");
+    bool success = payable(loan.lender).send(payment);
+    require(success, "Payment failed");
 
     loan.paidAmount += payment;
     loan.nextPaymentDue += 30 days;

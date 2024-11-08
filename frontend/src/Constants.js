@@ -59,7 +59,7 @@ export const microLoansAbi=[
       "inputs": [
         {
           "internalType": "address",
-          "name": "lender",
+          "name": "borrower",
           "type": "address"
         },
         {
@@ -80,7 +80,7 @@ export const microLoansAbi=[
       ],
       "name": "approveLoan",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -337,4 +337,4 @@ export const microLoansAbi=[
     }
   ]
 
-export const microLoansAddress="0xFd352365e8f0b03d4f1B996bC7F159BB9392C772"
+export const microLoansAddress="0x8fe4C4D66AfF76959D915950e77A3c61ad2DA66D"
