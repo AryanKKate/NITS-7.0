@@ -57,8 +57,8 @@ function KYC() {
   // Handle image upload to cloud
   const handleImageUpload = async (imageFile) => {
     // Check if the file is an image
-    if (!imageFile || !imageFile.type.startsWith('image/')) {
-      alert('Please upload an image file (PNG, JPEG, etc.).');
+    if (!imageFile || !imageFile.type.startsWith("image/")) {
+      alert("Please upload an image file (PNG, JPEG, etc.).");
       return null; // Exit the function if the file is not an image
     }
 
@@ -122,21 +122,28 @@ function KYC() {
   };
 
   return (
-    <div className="bg-gray-800" style={{ backgroundImage: "url('bg.jpeg')" }}
+    <div
+      className="bg-gray-800"
+      style={{
+        backgroundImage: "url('formBg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
     >
       <div>
         <Navbar />
       </div>
-      <div className="min-h-full w-full bg-transparent flex justify-center items-center " >
-        <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10"
-        >
+      <div className="min-h-full w-full bg-transparent flex justify-center items-center ">
+        <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10">
           {/* Left Side - Image */}
           <div className="w-1/2 flex items-center justify-center ">
             <img
               src="/kyc.jpeg"
               alt="KYC Illustration"
               className="w-full h-auto rounded-2xl border-none shadow-xl ]"
-              style={{ maxHeight: "600px", maxWidth: "600px" }} 
+              style={{ maxHeight: "600px", maxWidth: "600px" }}
             />
           </div>
 
@@ -158,10 +165,7 @@ function KYC() {
               />
 
               <form onSubmit={handleSubmit}>
-
                 <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-
                   <input
                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
                     type="text"
@@ -243,7 +247,6 @@ function KYC() {
                     onChange={handleChange}
                     required
                   />
-
                 </div>
                 <input
                   className="w-full px-4 py-3 rounded-lg text-white border border-gray-600 mb-4"
@@ -254,13 +257,13 @@ function KYC() {
                 />
                 <button
                   type="submit"
-                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${loading ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                   disabled={loading}
                 >
                   {loading ? "Submitting..." : "Submit"}
                 </button>
-
               </form>
             </div>
           </div>
