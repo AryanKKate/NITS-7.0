@@ -25,20 +25,41 @@ const BiddingPage = () => {
   }
   const navigate=useNavigate()
   const {isConnected, walletAddress, microLoansContract, connectWallet}=useWalletContract();
-  useEffect(()=>{
-    const fetchRequsts=async()=>{
-      if(!isConnected){
-        await connectWallet()
+  useEffect(() => {
+    const fetchRequests = async () => {
+      if (!isConnected) {
+        await connectWallet();
       }
-      const fetchLoans=async()=>{
-        const res=await axiosInstance.get('/loan')
-        console.log(res)
-        setFilteredLoans(res.data)
-      }
-      fetchLoans()
-    }
-    fetchRequsts()
-  },[isConnected])
+  
+      const fetchLoans = async () => {
+        try {
+          const res = await axiosInstance.get('/loan');
+          console.log(res);
+          
+          const loansWithUserDetails = await Promise.all(
+            res.data.map(async (loan) => {
+              const userDetails = await microLoansContract.getKYC(loan.address);
+              if (userDetails) {
+                loan.userDetails = userDetails;
+              }
+              return loan;
+            })
+          );
+          
+          console.log(loansWithUserDetails);
+          setLoanRequests(res.data);
+          setFilteredLoans(loansWithUserDetails);
+        } catch (error) {
+          console.error("Error fetching loans:", error);
+        }
+      };
+  
+      fetchLoans();
+    };
+  
+    fetchRequests();
+  }, [isConnected]);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +87,7 @@ const BiddingPage = () => {
   };
 
   const handleSubmitBid = async(loanId) => {
-    const res=await axiosInstance.post('/loan/bid', {loanId})
+    const res=await axiosInstance.post('/loan/bid', {loanId, bidBy:walletAddress})
     console.log(res)
   };
 
@@ -116,7 +137,9 @@ const BiddingPage = () => {
               transition={{ duration: 0.5 }}
             >
               <h3 className="text-2xl font-semibold">{loan.loan/Math.pow(10,18)}</h3>
-              <p className="mt-2 text-lg">Percentage: {loan.percentage} %</p>
+              <p className="text-lg">Name: {loan.userDetails.name}</p>
+              <p className="text-lg">Strikes: {Math.round(ethers.formatEther(loan.userDetails.strikes))}</p>
+              <p className="mt-2 text-lg">Interest: {loan.percentage} %</p>
 
               <button
                 onClick={() => setSelectedLoan(loan)}
@@ -133,11 +156,13 @@ const BiddingPage = () => {
             <div className="bg-white text-black p-8 rounded-lg shadow-lg w-1/2">
               {/* <h3 className="text-2xl font-semibold">
                 {types[ethers.formatUnits(selectedLoan.typeOfLoan, 0)]} Details
-              </h3>
-              <p className="mt-2">
+                </h3>
+                <p className="mt-2">
                 Description: {selectedLoan.description}
-              </p> */}
-
+                </p> */}
+              <p>User: {selectedLoan.userDetails.name}</p>
+              <p>Strikes: {Math.round(ethers.formatEther(selectedLoan.userDetails.strikes))}</p>
+              <p>Credit: {Math.round(ethers.formatEther(selectedLoan.userDetails.credit))}</p>
               <p className="mt-2">Amount: {(selectedLoan.loan/Math.pow(10,18))} ETH</p>
               <p className="mt-2">Current Interest: {selectedLoan.percentage}%</p>
               <div className="mt-4">

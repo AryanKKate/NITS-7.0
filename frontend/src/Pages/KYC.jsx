@@ -34,6 +34,7 @@ function KYC() {
     annualIncome: "",
     savings: "", // Added annualIncome
     image: "https://via.placeholder.com/150", // Dummy image URL
+    profession:""
   });
 
   // Handle input changes
@@ -103,7 +104,8 @@ function KYC() {
           formData.adhar_num,
           image,
           +formData.annualIncome,
-          +formData.savings
+          +formData.savings,
+          formData.profession
         );
         console.log(res);
         console.log("Form submitted:", formData);

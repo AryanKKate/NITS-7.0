@@ -18,6 +18,7 @@ contract MicroLoans {
         uint256 income;
         uint256 savings;
         uint256 debt;
+        string profession;
     }
 
     struct RequestedLoan {
@@ -66,9 +67,10 @@ contract MicroLoans {
         string memory adhar_num,
         string memory image,
         uint256 _income,
-        uint256 _savings
+        uint256 _savings,
+        string memory _profession
     ) public {
-        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0, 0, _income, _savings, 0);
+        kycData[addre] = Person(name, age, city, addr, adhar_num, image, Status.pending, 0, 0, _income, _savings, 0, _profession);
     }
 
     function approveKYC(address person) public {
@@ -99,8 +101,8 @@ contract MicroLoans {
         return allApprovedLoans;
     }
 
-    function getUserRequestedLoans() public view onlyVerified(msg.sender) returns (RequestedLoan[] memory) {
-        return userRequestedLoans[msg.sender];
+    function getUserRequestedLoans(address _user) public view onlyVerified(msg.sender) returns (RequestedLoan[] memory) {
+        return userRequestedLoans[_user];
     }
 
     function getUserApprovedLoans() public view onlyVerified(msg.sender) returns (ApprovedLoan[] memory) {
@@ -135,7 +137,7 @@ contract MicroLoans {
         });
         
         uint256 payment = msg.value;
-        require(payment == requestedLoan.amount, "Please send the exact amount");
+        require(payment >= requestedLoan.amount, "Please dont send less than the requested amount");
         bool success = payable(msg.sender).send(payment);
         require(success, "Payment Failed");
         kycData[borrower].debt+=totalAmount;
