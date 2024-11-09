@@ -56,7 +56,7 @@ const Faq = () => {
               <div>
                 <button
                   onClick={() => toggleFAQ(index)} // Toggle FAQ on button click
-                  className="flex items-center justify-between w-full px-4 py-4 text-lg text-left text-gray-800 rounded-lg bg-gray-900 hover:bg-indigo-400 focus:outline-none focus-visible:ring focus-visible:ring-indigo-100 focus-visible:ring-opacity-75 dark:bg-trueGray-800 dark:text-gray-200"
+                  className="flex items-center justify-between w-full px-4 py-4 text-lg text-left text-gray-800 rounded-lg bg-gray-700 hover:bg-indigo-400 focus:outline-none focus-visible:ring focus-visible:ring-indigo-100 focus-visible:ring-opacity-75 dark:bg-trueGray-800 dark:text-gray-200"
                 >
                   <span className="text-white">{item.question}</span>
                   <i
@@ -71,7 +71,10 @@ const Faq = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{
+                        duration: 0.5, // Increase duration for smooth animation
+                        ease: [0.4, 0, 0.2, 1], // Custom easing function for smoother transition
+                      }}
                       className="rounded-lg px-4 pt-4 pb-2 text-gray-500 dark:text-gray-300"
                     >
                       {item.answer}
