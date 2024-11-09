@@ -5,6 +5,7 @@ import Loan from "./Pages/Loan";
 import BiddingPage from "./Pages/BiddingPage";
 import Dashboard from "./Pages/Dashboard";
 import KYC from "./Pages/KYC";
+import CommunityPage from "./Pages/CommunityPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/bidding" element={<BiddingPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/kyc" element={<KYC />} />
+            <Route path="/community" element={<CommunityPage/>} />
           </Routes>
         </BrowserRouter>
       </div>
