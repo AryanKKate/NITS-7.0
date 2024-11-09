@@ -23,7 +23,7 @@ export const Navbar = () => {
           <img
             src="/logo1.png"
             alt="Logo"
-            className="logo-image w-24 h-auto transition-transform duration-300 hover:scale-110 shadow-lg rounded-lg"
+            className="logo-image w-24 h-auto transition-transform duration-300 hover:scale-110 rounded-lg"
           />
         </Link>
 
@@ -55,19 +55,11 @@ export const Navbar = () => {
           } lg:block`}
         >
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 lg:space-x-8">
-            <li>
-              <Link
-                to="/kyc"
-                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
-                onClick={() => connectWallet()}
-              >
-                Login/KYC
-              </Link>
-            </li>
+            
             <li>
               <Link
                 to="/bidding"
-                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+                className="block py-2 px-3 text-white text-xl rounded-md hover:bg-indigo-500 transition duration-300"
                 onClick={() => connectWallet()}
               >
                 Bidding
@@ -76,7 +68,7 @@ export const Navbar = () => {
             <li>
               <button
                 onClick={handleCommunityClick}
-                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+                className="block py-2 px-3 text-white text-xl rounded-md hover:bg-indigo-500 transition duration-300"
               >
                 Community Hub
               </button>
@@ -84,7 +76,7 @@ export const Navbar = () => {
             <li>
               <Link
                 to="/dashboard"
-                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+                className="block py-2 px-3 text-white text-xl rounded-md hover:bg-indigo-500 transition duration-300"
               >
                 Dashboard
               </Link>
@@ -92,10 +84,20 @@ export const Navbar = () => {
             <li>
               <Link
                 to="/loan"
-                className="block py-2 px-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
+                className="block py-2 px-3 text-white text-xl bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
                 onClick={() => connectWallet()}
               >
                 Get Loan
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/kyc"
+                className="block py-2 px-3 text-white text-xl bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
+                onClick={() => connectWallet()}
+              >
+                Login
               </Link>
             </li>
           </ul>
