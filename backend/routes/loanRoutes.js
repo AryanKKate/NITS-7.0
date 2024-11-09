@@ -9,7 +9,7 @@ router.get('/:address', loanController.getUserLoans)
 router.post('/approve', loanController.approveBid)
 router.get('/approved/:address', loanController.getUserApprovedBids)
 
-router.post("/bid_counts", loanController.bid_count);
-router.post("/getAllPercentage", loanController.all_percentage);
+router.post("/bid_counts",loanController.bid_count )
+router.post('/done', loanController.markLoanAsDone);
 
 module.exports = router;

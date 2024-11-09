@@ -11,46 +11,46 @@ function adjustPriceBasedOnDemandSupply(loan, buyDemand) {
   return adjustedPrice;
 }
 
-exports.getUserLoans=async(req, res)=>{
-    const {address}=req.params;
-    const userLoans=await Loan.find({address:address, status:"pending"}); 
+exports.getUserLoans = async (req, res) => {
+    const { address } = req.params;
+    const userLoans = await Loan.find({ address: address, status: "pending" });
     res.json(userLoans);
 }
 
-exports.bid_count = async (req, res) => {   
-    try {
-        const { loanId } = req.body;
-        
-        const loan = await Loan.findById(loanId);
-        if (!loan) {
-            return res.status(404).json({ message: 'Loan not found' });
-        }
-        
-        const bidCount = loan.bidCount;
-        res.json({
-            message: 'Bid count retrieved successfully.',
-            bidCount: bidCount
-        });
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching bid count", error: error });
+exports.bid_count = async (req, res) => {
+  try {
+    const { loanId } = req.body;
+
+    const loan = await Loan.findById(loanId);
+    if (!loan) {
+      return res.status(404).json({ message: "Loan not found" });
     }
+
+    const bidCount = loan.bidCount;
+    res.json({
+      message: "Bid count retrieved successfully.",
+      bidCount: bidCount,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching bid count", error: error });
+  }
 };
 
 exports.setLoan = async (req, res) => {
-  try {
-    const { userLoan, userPercentage, loanIndex } = req.body;
-
-    const newLoan = new Loan({
-      loan: userLoan,
-      percentage: userPercentage,
-      bidCount: 0,
-      buyDemand: 0,
-      paidAmount: 0,
-      returnOnLoan: 0,
-      totalLoanValue: userLoan,
-      bids: [],
-      loanIndex: loanIndex,
-    });
+    try {
+        const { userLoan, userPercentage, loanIndex } = req.body;
+        
+        const newLoan = new Loan({
+            loan: userLoan,
+            percentage: userPercentage,
+            bidCount: 0,
+            buyDemand: 0,
+            paidAmount: 0,
+            returnOnLoan: 0,
+            totalLoanValue: userLoan,
+            bids: [],
+            loanIndex: loanIndex
+        });
 
     await newLoan.save();
     res.json({
@@ -63,41 +63,22 @@ exports.setLoan = async (req, res) => {
 };
 
 exports.getLoan=async(req, res) =>{
-    const loans=await Loan.find({status:"pending"}) 
+    const loans=await Loan.find({})
     res.json(loans)
 }
 
-exports.approveBid=async(req,res)=>{
-    const {loanId}=req.body;
-    const loan=await Loan.findById(loanId)
-    if(loan){
-        loan.acceptedBid=loan.bids[loan.bids.length-1]
-        loan.lender=loan.bids[loan.bids.length-1].bidBy
-        loan.status="approved" 
-        loan.paid=false;
-    }
-    await loan.save()
-    res.json({message:"Bid has been approved",loan:loan})
-}
-
-exports.getUserApprovedBids=async(req,res)=>{
-    const {address}=req.params
-    const loan=await Loan.find({lender:address})
-    res.json(loan)
-}
-
 exports.bid = async (req, res) => {
-  try {
-    const { loanId } = req.body;
-    const uniqueBits = generateUniqueBits();
-
-    const bidOpenAt = moment().toDate();
-    const bidCloseAt = moment().add(30, "minutes").toDate();
-    const loan = await Loan.findById(loanId);
-
-    if (!loan) {
-      return res.status(404).json({ message: "Loan not found" });
-    }
+    try {
+        const { loanId } = req.body;
+        const uniqueBits = generateUniqueBits();
+        
+        const bidOpenAt = moment().toDate();
+        const bidCloseAt = moment().add(30, 'minutes').toDate();
+        const loan = await Loan.findById(loanId);
+        
+        if (!loan) {
+            return res.status(404).json({ message: 'Loan not found' });
+        }
 
     const updatedLoan = adjustPriceBasedOnDemandSupply(
       loan.loan,
@@ -110,14 +91,13 @@ exports.bid = async (req, res) => {
     const totalLoanValue = updatedLoan + returnOnLoan;
 
         const newBid = {
-            bidBy,
             uniqueBits,
             paidAmount,
             returnOnLoan,
             bidOpenAt,
             bidCloseAt,
             bidAt: moment().toDate(),
-            status: 'pending', 
+            status: 'open',
         };
 
     loan.bids.push(newBid);

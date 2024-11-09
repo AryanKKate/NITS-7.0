@@ -23,7 +23,7 @@ const loanSchema = new mongoose.Schema({
     acceptedBid: bidSchema,
     createdAt: { type: Date, default: Date.now },
     loanIndex: { type: Number, required: true},
-    status: {type: String, enum: ['pending', 'approved'], default:"pending"},
+    status: {type: String, enum: ['pending', 'approved','done'], default:"pending"},
     lender:String,
     paid:Boolean  
 });

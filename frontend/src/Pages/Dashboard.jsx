@@ -93,18 +93,26 @@ function Dashboard() {
   // duration
   // interestRate
   const sendMoney = async (loan) => {
-    console.log(BigInt(loan.loan));
-    const tx = await microLoansContract.approveLoan(
-      loan.address,
-      loan.loanIndex,
-      18,
-      Math.floor(loan.percentage),
-      {
-        value: BigInt(loan.loan),
-      }
-    );
-    console.log(tx);
+    try {
+      console.log(BigInt(loan.loan));
+      const tx = await microLoansContract.approveLoan(
+        loan.address,
+        loan.loanIndex,
+        18,
+        Math.floor(loan.percentage),
+        {
+          value: BigInt(loan.loan),
+        }
+      );
+      console.log(tx);
+ 
+      const res = await axiosInstance.post("/done", { loanId: loan._id });
+      console.log("Loan marked as done:", res.data);
+    } catch (error) {
+      console.error("Error in sending money or marking loan as done:", error);
+    }
   };
+  
 
   const handleWithdraw = (loanId) => {
     console.log("Loan withdrawn with ID:", loanId);
