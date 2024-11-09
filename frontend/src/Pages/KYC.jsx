@@ -34,7 +34,7 @@ function KYC() {
     annualIncome: "",
     savings: "", // Added annualIncome
     image: "https://via.placeholder.com/150", // Dummy image URL
-    profession:""
+    profession: ""
   });
 
   // Handle input changes
@@ -155,16 +155,20 @@ function KYC() {
               </h1>
               {error && <div className="text-red-500 mb-4">{error}</div>}
 
-              <input
-                className="w-full px-4 py-3  rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                type="text"
-                name="walletAddress"
-                placeholder="Wallet Address"
-                value={walletAddress}
-                required
-              />
+
 
               <form onSubmit={handleSubmit}>
+
+                <input
+                  className="w-full px-4 py-3  rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                  type="text"
+                  name="walletAddress"
+                  placeholder="Wallet Address"
+                  value={walletAddress}
+                  required
+                />
+
+
                 <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input
                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
@@ -175,15 +179,7 @@ function KYC() {
                     onChange={handleChange}
                     required
                   />
-                  <input
-                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                    type="text"
-                    name="profession"
-                    placeholder="Profession"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
+
                   <input
                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
                     type="number"
@@ -249,6 +245,15 @@ function KYC() {
                   />
                 </div>
                 <input
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                  type="text"
+                  name="profession"
+                  placeholder="Profession"
+                  value={formData.profession}
+                  onChange={handleChange}
+                  required
+                />
+                <input
                   className="w-full px-4 py-3 rounded-lg text-white border border-gray-600 mb-4"
                   type="file"
                   name="image"
@@ -257,9 +262,8 @@ function KYC() {
                 />
                 <button
                   type="submit"
-                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${loading ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   disabled={loading}
                 >
                   {loading ? "Submitting..." : "Submit"}
