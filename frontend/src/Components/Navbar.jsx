@@ -23,7 +23,7 @@ export const Navbar = () => {
           <img
             src="/logo1.png"
             alt="Logo"
-            className="logo-image w-24 h-auto transition-transform duration-300 hover:scale-110 rounded-lg"
+            className="logo-image w-24 h-auto transition-transform duration-300 hover:scale-110 hover:bg-indigo-790 rounded-lg"
           />
         </Link>
 
@@ -84,7 +84,7 @@ export const Navbar = () => {
             <li>
               <Link
                 to="/loan"
-                className="block py-2 px-3 text-white text-xl bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
+                className="block py-2 px-3 text-white text-xl bg-darkblue-800 rounded-md hover:bg-indigo-500 transition duration-300"
                 onClick={() => connectWallet()}
               >
                 Get Loan
