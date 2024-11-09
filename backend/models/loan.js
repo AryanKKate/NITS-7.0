@@ -8,9 +8,11 @@ const bidSchema = new mongoose.Schema({
     bidCloseAt: { type: Date },
     bidAt: { type: Date, default: Date.now },
     status: { type: String, enum: ['open', 'closed'], default: 'open' }, 
+    bidBy: {type:String, required:true}
 });
 
 const loanSchema = new mongoose.Schema({
+    address:{type: String, required: true},
     loan: { type: Number, required: true },
     percentage: { type: Number, required: true },
     bidCount: { type: Number, required: true, default: 0 },

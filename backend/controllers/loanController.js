@@ -31,10 +31,13 @@ exports.bid_count = async (req, res) => {
 };
 
 exports.setLoan = async (req, res) => {
+    console.log("calling")
     try {
-        const { userLoan, userPercentage, loanIndex } = req.body;
-        
+        console.log(req.body)
+        const { address, userLoan, userPercentage, loanIndex } = req.body;
+
         const newLoan = new Loan({
+            address:address,
             loan: userLoan,
             percentage: userPercentage,
             bidCount: 0,
@@ -63,7 +66,7 @@ exports.getLoan=async(req, res) =>{
 
 exports.bid = async (req, res) => {
     try {
-        const { loanId } = req.body;
+        const { loanId, bidBy } = req.body;
         const uniqueBits = generateUniqueBits();
         
         const bidOpenAt = moment().toDate();
@@ -82,6 +85,7 @@ exports.bid = async (req, res) => {
         const totalLoanValue = updatedLoan + returnOnLoan;
 
         const newBid = {
+            bidBy,
             uniqueBits,
             paidAmount,
             returnOnLoan,

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const loanRoutes = require('./routes/loanRoutes');
 const cors = require('cors'); 
-require('./corn');  
+// require('./corn');  
 
 const app = express();
 app.use(cors());

@@ -51,7 +51,8 @@ function Loan() {
       console.log(res);
       const userLoans=await microLoansContract.getUserRequestedLoans()
       console.log(userLoans.length)
-      const result=await axiosInstance.post("/loan", {userLoan: loanAmount.toString(), userPercentage:formData.roi, loanIndex: userLoans.length})
+      console.log(walletAddress)
+      const result=await axiosInstance.post("/loan", {userLoan: loanAmount.toString(), userPercentage:formData.roi, loanIndex: userLoans.length, address: walletAddress})
       console.log(result)
     } catch (err) {
       console.log(err);

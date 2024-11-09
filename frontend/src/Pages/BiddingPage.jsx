@@ -66,7 +66,7 @@ const BiddingPage = () => {
   };
 
   const handleSubmitBid = async(loanId) => {
-    const res=await axiosInstance.post('/loan/bid', {loanId})
+    const res=await axiosInstance.post('/loan/bid', {loanId, bidBy:walletAddress})
     console.log(res)
   };
 
