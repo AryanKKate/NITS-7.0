@@ -4,6 +4,7 @@ import { Navbar } from "../Components/Navbar";
 import axiosInstance from "../AxiosInstance";
 import { useWalletContract } from "../Context/WalletProvider";
 import { ethers } from "ethers";
+import { Link } from "react-router-dom";
 // SectionTitle Component
 const SectionTitle = ({ preTitle, title, children }) => {
 
@@ -107,7 +108,8 @@ const CommunityPage = () => {
 
   }
   return (
-    <div className=""
+    <div
+      className=""
       style={{
         backgroundImage: "url('formBg.jpg')",
         backgroundSize: "cover",
@@ -149,6 +151,12 @@ const CommunityPage = () => {
             >
               Search
             </button>
+            <Link
+              to="/community/create"
+              className="px-6 py-2 bg-indigo-600 text-white rounded-lg"
+            >
+              Create community
+            </Link>
           </div>
         </div>
 
@@ -173,7 +181,9 @@ const CommunityPage = () => {
                       />
                     </div>
                     <h3 className="text-2xl font-semibold">{community.name}</h3>
-                    <p className="mt-2 text-lg">Number of Members: {community.owners.length}</p>
+                    <p className="mt-2 text-lg">
+                      Number of Members: {community.owners.length}
+                    </p>
 
                     <button
                       onClick={() => joinCommunity(community)}
@@ -276,7 +286,6 @@ const CommunityPage = () => {
                 <p className="mt-2 text-lg">Category: Agriculture</p>
                 <p className="mt-2 text-lg">Members: 500+</p>
                 <p className="mt-4 text-sm text-gray-400">
-
                   A community set up by the farmers for the farmers to fund
                   raise for various Agriculture activities
                 </p>
@@ -311,7 +320,6 @@ const CommunityPage = () => {
                 <p className="mt-4 text-sm text-gray-400">
                   A health and wellness community where funding or lending is
                   focussed towards health camp activities
-
                 </p>
                 <button
                   onClick={() => setSelectedCommunity(community)}
