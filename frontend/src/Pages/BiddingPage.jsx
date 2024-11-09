@@ -25,12 +25,30 @@ const BiddingPage = () => {
   }
   const navigate=useNavigate()
   const {isConnected, walletAddress, microLoansContract, connectWallet}=useWalletContract();
+  const [loanDetails, setLoanDetails]=useState(null)
+  useEffect(()=>{
+    if(!selectedLoan){
+      return setLoanDetails(null)
+    }
+    else{
+      const fetchDetails=async()=>{
+        const loanDetail=await microLoansContract.getUserRequestedLoans(selectedLoan.address)
+        // console.log(loanDetail[selectedLoan.loanIndex])
+        const details={
+          description:loanDetail[selectedLoan.loanIndex].description,
+          loanType:types[ethers.formatUnits(loanDetail[selectedLoan.loanIndex].typeOfLoan,0)],
+        }
+        console.log(details)
+        setLoanDetails(details)
+      }
+      fetchDetails()
+    }
+  }, [selectedLoan])
   useEffect(() => {
     const fetchRequests = async () => {
       if (!isConnected) {
         await connectWallet();
       }
-  
       const fetchLoans = async () => {
         try {
           const res = await axiosInstance.get('/loan');
@@ -154,12 +172,12 @@ const BiddingPage = () => {
         {selectedLoan && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white text-black p-8 rounded-lg shadow-lg w-1/2">
-              {/* <h3 className="text-2xl font-semibold">
-                {types[ethers.formatUnits(selectedLoan.typeOfLoan, 0)]} Details
+              {loanDetails?<><h3 className="text-2xl font-semibold">
+                 {loanDetails.loanType} Loan
                 </h3>
                 <p className="mt-2">
-                Description: {selectedLoan.description}
-                </p> */}
+                Description: {loanDetails.description}
+                </p></>:<></>}
               <p>User: {selectedLoan.userDetails.name}</p>
               <p>Strikes: {Math.round(ethers.formatEther(selectedLoan.userDetails.strikes))}</p>
               <p>Credit: {Math.round(ethers.formatEther(selectedLoan.userDetails.credit))}</p>

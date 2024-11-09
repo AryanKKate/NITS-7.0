@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { microLoansAbi, microLoansAddress } from "../Constants.js";
+import { microLoansAbi, microLoansAddress, communityFactoryAddress, communityFactoryAbi, communityAbi } from "../Constants.js";
 import { ethers } from "ethers";
 
 const WalletContractContext = createContext();
@@ -8,7 +8,7 @@ export const WalletContractProvider = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [microLoansContract, setMicroLoansContract] = useState(null);
-
+  const [communityFactoryContract, setCommunityFactoryContract] = useState(null);
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
@@ -37,7 +37,8 @@ export const WalletContractProvider = ({ children }) => {
     console.log(signer)
     const contractInstance = new ethers.Contract(microLoansAddress, microLoansAbi, signer);
     setMicroLoansContract(contractInstance);
-    console.log(contractInstance)
+    const community=new ethers.Contract(communityFactoryAddress,communityFactoryAbi, signer);
+    setCommunityFactoryContract(community)
   };
 
   useEffect(() => {
@@ -64,7 +65,9 @@ export const WalletContractProvider = ({ children }) => {
         microLoansContract,
         connectWallet,
         isConnected,
-        disconnectWallet
+        disconnectWallet,
+        communityFactoryContract,
+        communityAbi
       }}
     >
       {children}

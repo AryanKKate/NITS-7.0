@@ -18,13 +18,22 @@ contract CommunityFactory {
         implementation = _implementation;
     }
 
+    struct Community{
+        address contractAddress;
+        address[] owners;
+        string name;
+        string url;
+    }
+
+    Community[] allCommunitites;
+    
     function setImplementation(address _implementation) public {
         require(msg.sender == owner, "Not owner!");
         implementation = _implementation;
         emit ImplementationUpdated(msg.sender, _implementation);
     }
 
-    function deployContract(bytes memory _data, address[] memory _owners ) public {
+    function deployContract(bytes memory _data, address[] memory _owners, string memory _url, string memory _name ) public {
         address deployedContract = Clones.clone(implementation);
         (bool success, ) = deployedContract.call(_data);
         require(success, "Failed to initialize contract!");
@@ -35,8 +44,13 @@ contract CommunityFactory {
                 break;
             }
         }
+        allCommunitites.push(Community(deployedContract, _owners, _name, _url));
         require(add=true, "Not all owners added to registry");
         emit ContractDeployed(msg.sender, deployedContract, implementation);
+    }
+
+    function getAllCommunities() public view returns(Community[] memory){
+        return allCommunitites;
     }
 
     function getCommunities(address _deployer) public view returns(address[] memory) {
