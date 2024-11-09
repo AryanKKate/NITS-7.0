@@ -43,6 +43,15 @@ export const Navbar = () => {
           <Link
             to="/bidding"
             className="px-6 py-2 text-white rounded-md md:ml-5"
+            onClick={() => {
+              connectWallet;
+            }}
+          >
+            Login/KYC
+          </Link>
+          <Link
+            to="/bidding"
+            className="px-6 py-2 text-white rounded-md md:ml-5"
             onClick={() => connectWallet()}
           >
             Bidding
