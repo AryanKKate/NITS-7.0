@@ -85,7 +85,7 @@ exports.approveBid = async (req, res) => {
 
 exports.getUserApprovedBids = async (req, res) => {
     const { address } = req.params;
-    const loan = await Loan.find({ lender: address });
+    const loan = await Loan.find({ lender: address, status:"approved" });
     res.json(loan);
 }
 
