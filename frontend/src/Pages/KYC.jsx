@@ -135,20 +135,20 @@ function KYC() {
       <div>
         <Navbar />
       </div>
-      <div className="min-h-full w-full bg-transparent flex justify-center items-center ">
-        <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10">
+      <div className="min-h-full w-full bg-transparent flex justify-center items-center  ">
+        <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10 ">
           {/* Left Side - Image */}
           <div className="w-1/2 flex items-center justify-center ">
             <img
               src="/kyc.jpeg"
               alt="KYC Illustration"
-              className="w-full h-auto rounded-2xl border-none shadow-xl ]"
+              className="w-full h-auto rounded-2xl border-none shadow-xl "
               style={{ maxHeight: "600px", maxWidth: "600px" }}
             />
           </div>
 
-          {/* Right Side - Form */}
-          <div className="w-1/2 p-6 flex flex-col justify-center">
+          {/* Right Side - Form */} 
+          <div className="w-1/2 p-6 flex flex-col justify-center shadow-inner">
             <div className="flex flex-col items-center">
               <h1 className="text-2xl font-extrabold text-white mb-6">
                 KYC Form

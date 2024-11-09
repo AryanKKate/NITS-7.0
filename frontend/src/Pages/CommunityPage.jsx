@@ -6,6 +6,7 @@ import { useWalletContract } from "../Context/WalletProvider";
 import { ethers } from "ethers";
 // SectionTitle Component
 const SectionTitle = ({ preTitle, title, children }) => {
+
   return (
     <div className="mb-12 text-center">
       <h4 className="text-lg font-semibold text-indigo-600 uppercase">
@@ -18,6 +19,7 @@ const SectionTitle = ({ preTitle, title, children }) => {
 };
 
 const CommunityPage = () => {
+
   const {
     walletAddress,
     microLoansContract,
@@ -27,6 +29,7 @@ const CommunityPage = () => {
     communityFactoryContract,
     communityAbi,
   } = useWalletContract();
+
 
   const [communities, setCommunities] = useState([]);
   // const
@@ -52,6 +55,14 @@ const CommunityPage = () => {
       fetchCommunities();
     }
   }, [isConnected]);
+
+  const addCommunity = async (owners, requiredSignatures, imageUrl, name) => {
+    const initData = new ethers.Interface(communityAbi).encodeFunctionData(
+      "initialize",
+      [owners, requiredSignatures]
+    );
+    const res = await communityFactoryContract.deployContract(initData, owners, imageUrl, name);
+  }
 
   const handleSearch = () => {
     let filtered = communities;
@@ -96,10 +107,18 @@ const CommunityPage = () => {
 
   }
   return (
-    <div className="bg-gray-900">
+    <div className=""
+      style={{
+        backgroundImage: "url('formBg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <Navbar />
 
-      <div className="bg-gray-900 min-h-screen p-8">
+      <div className="min-h-screen p-8">
         <SectionTitle preTitle="Community Hub" title="Explore Communities">
           Join a community that fits your interests!
         </SectionTitle>
@@ -257,6 +276,7 @@ const CommunityPage = () => {
                 <p className="mt-2 text-lg">Category: Agriculture</p>
                 <p className="mt-2 text-lg">Members: 500+</p>
                 <p className="mt-4 text-sm text-gray-400">
+
                   A community set up by the farmers for the farmers to fund
                   raise for various Agriculture activities
                 </p>
@@ -291,6 +311,7 @@ const CommunityPage = () => {
                 <p className="mt-4 text-sm text-gray-400">
                   A health and wellness community where funding or lending is
                   focussed towards health camp activities
+
                 </p>
                 <button
                   onClick={() => setSelectedCommunity(community)}
