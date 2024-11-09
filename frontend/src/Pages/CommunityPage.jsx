@@ -40,6 +40,14 @@ const CommunityPage = () => {
     }
   }, [isConnected]);
 
+  const addCommunity=async(owners, requiredSignatures, imageUrl, name)=>{
+    const initData = new ethers.Interface(communityAbi).encodeFunctionData(
+      "initialize",
+      [owners, requiredSignatures]
+    );
+    const res=await communityFactoryContract.deployContract(initData, owners, imageUrl, name);
+  }
+
   const handleSearch = () => {
     let filtered = communities;
 

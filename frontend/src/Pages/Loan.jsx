@@ -60,6 +60,7 @@ function Loan() {
         formData.description
       );
       const result = await axiosInstance.post("/loan", {
+        address: walletAddress,
         userLoan: loanAmount.toString(),
         userPercentage: formData.roi,
         loanIndex: userLoans.length,
