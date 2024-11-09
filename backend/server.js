@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const loanRoutes = require('./routes/loanRoutes');
+const transactionRoutes=require('./routes/transactionRoutes')
 const cors = require('cors'); 
 // require('./corn');  
 
@@ -15,6 +16,7 @@ mongoose.connect('mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5
 app.use(bodyParser.json());
 
 app.use('/api/loan', loanRoutes);
+app.use('/api/transaction', transactionRoutes)
 
 const port = 5000;
 app.listen(port, () => {

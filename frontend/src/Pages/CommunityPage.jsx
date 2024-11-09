@@ -6,7 +6,7 @@ import { useWalletContract } from "../Context/WalletProvider";
 
 // SectionTitle Component
 const SectionTitle = ({ preTitle, title, children }) => {
-  
+
   return (
     <div className="mb-12 text-center">
       <h4 className="text-lg font-semibold text-indigo-600 uppercase">
@@ -19,7 +19,7 @@ const SectionTitle = ({ preTitle, title, children }) => {
 };
 
 const CommunityPage = () => {
-  const {walletAddress, microLoansContract, connectWallet, isConnected, disconnectWallet, communityFactoryContract, communityAbi} = useWalletContract();
+  const { walletAddress, microLoansContract, connectWallet, isConnected, disconnectWallet, communityFactoryContract, communityAbi } = useWalletContract();
 
   const [communities, setCommunities] = useState([]);
   const [filteredCommunities, setFilteredCommunities] = useState([]);
@@ -28,17 +28,25 @@ const CommunityPage = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null);
 
   useEffect(() => {
-    if(!isConnected){
+    if (!isConnected) {
       connectWallet();
     }
-    else{
+    else {
       const fetchCommunities = async () => {
-        const res=await communityFactoryContract.getCommunities(walletAddress)
+        const res = await communityFactoryContract.getCommunities(walletAddress)
         console.log(res)
       };
       fetchCommunities();
     }
   }, [isConnected]);
+
+  const addCommunity = async (owners, requiredSignatures, imageUrl, name) => {
+    const initData = new ethers.Interface(communityAbi).encodeFunctionData(
+      "initialize",
+      [owners, requiredSignatures]
+    );
+    const res = await communityFactoryContract.deployContract(initData, owners, imageUrl, name);
+  }
 
   const handleSearch = () => {
     let filtered = communities;
@@ -68,10 +76,18 @@ const CommunityPage = () => {
   };
 
   return (
-    <div className="bg-gray-900">
+    <div className=""
+      style={{
+        backgroundImage: "url('formBg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <Navbar />
 
-      <div className="bg-gray-900 min-h-screen p-8">
+      <div className="min-h-screen p-8">
         <SectionTitle preTitle="Community Hub" title="Explore Communities">
           Join a community that fits your interests!
         </SectionTitle>
@@ -168,106 +184,106 @@ const CommunityPage = () => {
 
         {/* Additional Cards Section */}
         <div className="mt-16">
-  <SectionTitle preTitle="Featured" title="Featured Communities">
-    Explore some of the highlighted communities!
-  </SectionTitle>
+          <SectionTitle preTitle="Featured" title="Featured Communities">
+            Explore some of the highlighted communities!
+          </SectionTitle>
 
-  <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-    <motion.div
-      key="featured-1"
-      className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Featured Card 1 */}
-      <div>
-        <div className="mb-4">
-          <img
-            src="/comm1.webp" // Replace with actual image path
-            alt="Featured Community 1"
-            className="w-full h-40 object-cover rounded-md"
-          />
-        </div>
-        <h3 className="text-2xl font-semibold">Computer Shiksha</h3>
-        <p className="mt-2 text-lg">Category: Tech</p>
-        <p className="mt-2 text-lg">Members: 120+</p>
-        <p className="mt-4 text-sm text-gray-400">
-          A Tech focussed community with funds focussed upon Technical / software education in rural areas
-        </p>
-        <button
-                      onClick={() => setSelectedCommunity(community)}
-                      className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                    >
-                      View/Join Community
-                    </button>
-      </div>
-    </motion.div>
+          <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
+            <motion.div
+              key="featured-1"
+              className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Featured Card 1 */}
+              <div>
+                <div className="mb-4">
+                  <img
+                    src="/comm1.webp" // Replace with actual image path
+                    alt="Featured Community 1"
+                    className="w-full h-40 object-cover rounded-md"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold">Computer Shiksha</h3>
+                <p className="mt-2 text-lg">Category: Tech</p>
+                <p className="mt-2 text-lg">Members: 120+</p>
+                <p className="mt-4 text-sm text-gray-400">
+                  A Tech focussed community with funds focussed upon Technical / software education in rural areas
+                </p>
+                <button
+                  onClick={() => setSelectedCommunity(community)}
+                  className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                >
+                  View/Join Community
+                </button>
+              </div>
+            </motion.div>
 
-    <motion.div
-      key="featured-2"
-      className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Featured Card 2 */}
-      <div>
-        <div className="mb-4">
-          <img
-            src="/comm2.jfif" // Replace with actual image path
-            alt="Featured Community 2"
-            className="w-full h-40 object-cover rounded-md"
-          />
-        </div>
-        <h3 className="text-2xl font-semibold">Kisan Community</h3>
-        <p className="mt-2 text-lg">Category: Agriculture</p>
-        <p className="mt-2 text-lg">Members: 500+</p>
-        <p className="mt-4 text-sm text-gray-400">
-          A community set up by the farmers for the farmers to fund raise for various Agriculture activities
-        </p>
-        <button
-                      onClick={() => setSelectedCommunity(community)}
-                      className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                    >
-                      View/Join Community
-                    </button>
-      </div>
-    </motion.div>
+            <motion.div
+              key="featured-2"
+              className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Featured Card 2 */}
+              <div>
+                <div className="mb-4">
+                  <img
+                    src="/comm2.jfif" // Replace with actual image path
+                    alt="Featured Community 2"
+                    className="w-full h-40 object-cover rounded-md"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold">Kisan Community</h3>
+                <p className="mt-2 text-lg">Category: Agriculture</p>
+                <p className="mt-2 text-lg">Members: 500+</p>
+                <p className="mt-4 text-sm text-gray-400">
+                  A community set up by the farmers for the farmers to fund raise for various Agriculture activities
+                </p>
+                <button
+                  onClick={() => setSelectedCommunity(community)}
+                  className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                >
+                  View/Join Community
+                </button>
+              </div>
+            </motion.div>
 
-    <motion.div
-      key="featured-3"
-      className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Featured Card 3 */}
-      <div>
-        <div className="mb-4">
-          <img
-            src="/comm3.png" // Replace with actual image path
-            alt="Featured Community 3"
-            className="w-full h-40 object-cover rounded-md"
-          />
+            <motion.div
+              key="featured-3"
+              className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Featured Card 3 */}
+              <div>
+                <div className="mb-4">
+                  <img
+                    src="/comm3.png" // Replace with actual image path
+                    alt="Featured Community 3"
+                    className="w-full h-40 object-cover rounded-md"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold">Health Camp</h3>
+                <p className="mt-2 text-lg">Category: Health</p>
+                <p className="mt-2 text-lg">Members: 300+</p>
+                <p className="mt-4 text-sm text-gray-400">
+                  A health and wellness community where funding or lending is focussed towards health camp activities
+                </p>
+                <button
+                  onClick={() => setSelectedCommunity(community)}
+                  className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                >
+                  View/Join Community
+                </button>
+
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <h3 className="text-2xl font-semibold">Health Camp</h3>
-        <p className="mt-2 text-lg">Category: Health</p>
-        <p className="mt-2 text-lg">Members: 300+</p>
-        <p className="mt-4 text-sm text-gray-400">
-          A health and wellness community where funding or lending is focussed towards health camp activities
-        </p>
-        <button
-                      onClick={() => setSelectedCommunity(community)}
-                      className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                    >
-                      View/Join Community
-                    </button>
-                  
-      </div>
-    </motion.div>
-  </div>
-</div>
 
       </div>
     </div>

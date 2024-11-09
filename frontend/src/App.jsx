@@ -6,6 +6,8 @@ import BiddingPage from "./Pages/BiddingPage";
 import Dashboard from "./Pages/Dashboard";
 import KYC from "./Pages/KYC";
 import CommunityPage from "./Pages/CommunityPage";
+import CommunityInput from "./Pages/CommunityInputs"
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/kyc" element={<KYC />} />
             <Route path="/community" element={<CommunityPage/>} />
+            <Route path="/community/create" element={<CommunityInput/>} />
           </Routes>
         </BrowserRouter>
       </div>
