@@ -106,7 +106,7 @@ function Dashboard() {
       );
       console.log(tx);
  
-      const res = await axiosInstance.post("/done", { loanId: loan._id });
+      const res = await axiosInstance.post("/loan/done", { loanId: loan._id });
       console.log("Loan marked as done:", res.data);
     } catch (error) {
       console.error("Error in sending money or marking loan as done:", error);
@@ -130,7 +130,7 @@ function Dashboard() {
         <div className="space-y-6 mx-10">
           {userLoans && userLoans.length != 0 ? (
             <>
-              {userLoans.map((loan, index) => (
+              {userLoans.map((loan) => (
                 <div
                   key={loan._id}
                   className="bg-gray-700 p-6 rounded-lg shadow-lg"
