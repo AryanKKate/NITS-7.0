@@ -57,6 +57,22 @@ contract CommunityFactory {
         return ownersAddress[_deployer].values();
     }
 
+     function addOwnersToCommunity(address _community, address[] memory _newOwners) public {
+        bool isCommunity = false;
+        for (uint i = 0; i < allCommunitites.length; i++) {
+            if (allCommunitites[i].contractAddress == _community) {
+                isCommunity = true;
+                break;
+            }
+        }
+        require(isCommunity, "Community not found!");
+
+        for (uint i = 0; i < _newOwners.length; i++) {
+            ownersAddress[_newOwners[i]].add(_community);
+        }
+        
+    }
+
     function countDeployed(address _deployer) public view returns(uint256) {
         return ownersAddress[_deployer].length();
     }

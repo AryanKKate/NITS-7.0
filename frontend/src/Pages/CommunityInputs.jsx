@@ -4,11 +4,11 @@ import { Footer } from "../Components/Footer";
 import { useWalletContract } from "../Context/WalletProvider";
 import { toast } from "react-toastify";
 import axios from "axios";
+import {ethers} from "ethers"
 import { useNavigate } from "react-router-dom";
 
 function KYC() {
     const context = useWalletContract();
-    const { isConnected, connectWallet, walletAddress, microLoansContract } = context;
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
@@ -16,17 +16,9 @@ function KYC() {
     const [formData, setFormData] = useState({
         walletAddress: "",
         name: "",
-        age: "",
-        city: "",
-        addr: "",
-        adhar_num: "",
-        bankAccNumber: "",
-        annualIncome: "",
-        savings: "",
-        image: "",
-        profession: ""
+        requiredSignatured:0
     });
-
+    const {walletAddress, microLoansContract, connectWallet, isConnected, disconnectWallet, communityFactoryContract, communityAbi} = useWalletContract();
     useEffect(() => {
         if (!isConnected) {
             connectWallet();
@@ -82,31 +74,23 @@ function KYC() {
             return null;
         }
     };
-
+    const addCommunity=async(owners, requiredSignatures, imageUrl, name)=>{
+        console.log(owners)
+        const initData = new ethers.Interface(communityAbi).encodeFunctionData(
+          "initialize",
+          [[walletAddress], requiredSignatures, imageUrl]
+        );
+        const res=await communityFactoryContract.deployContract(initData, [walletAddress], imageUrl, name);
+        console.log(res)
+      }
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
 
-        try {
-            const res = await microLoansContract.addKYC(
-                walletAddress,
-                formData.name,
-                +formData.age,
-                formData.city,
-                formData.addr,
-                formData.adhar_num,
-                formData.image,
-                +formData.annualIncome,
-                +formData.savings,
-                formData.profession
-            );
-            console.log(res);
-            toast.success("Form Submitted Successfully!");
-            navigate("/");
-        } catch (err) {
-            toast.error("Error submitting your KYC");
-            console.log(err);
+        if(formData.image!=""){
+           const res=await addCommunity([formData.walletAddress], formData.requiredSignatured, formData.image, formData.name)
+           console.log(res)
         }
         setLoading(false);
     };
@@ -152,36 +136,26 @@ function KYC() {
                                     value={walletAddress}
                                     required
                                 />
-
                                 <input
                                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
                                     type="text"
                                     name="name"
-                                    placeholder="Name"
-                                    value={formData.name}
+                                    placeholder="Name of the Community"
                                     onChange={handleChange}
+                                    value={formData.name}
                                     required
                                 />
 
                                 <input
                                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
                                     type="number"
-                                    name="age"
-                                    placeholder="Age"
-                                    value={formData.age}
+                                    name="requiredSignatured"
+                                    placeholder="Number of Required Signatured"
+                                    value={formData.requiredSignatured}
                                     onChange={handleChange}
                                     required
                                 />
 
-                                <input
-                                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                                    type="text"
-                                    name="profession"
-                                    placeholder="Profession"
-                                    value={formData.profession}
-                                    onChange={handleChange}
-                                    required
-                                />
 
                                 <input
                                     className="w-full px-4 py-3 rounded-lg text-white border border-gray-600 mb-4"

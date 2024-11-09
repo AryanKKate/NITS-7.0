@@ -102,11 +102,13 @@ exports.approveBid = async (req, res) => {
   res.json({ message: "Bid has been approved", loan: loan });
 };
 
+
 exports.getUserApprovedBids = async (req, res) => {
   const { address } = req.params;
   const loan = await Loan.find({ lender: address });
   res.json(loan);
 };
+
 
 exports.bid = async (req, res) => {
   try {

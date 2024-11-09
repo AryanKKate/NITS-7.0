@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "../Components/Navbar";
 import axiosInstance from "../AxiosInstance";
 import { useWalletContract } from "../Context/WalletProvider";
-
+import { ethers } from "ethers";
 // SectionTitle Component
 const SectionTitle = ({ preTitle, title, children }) => {
 
@@ -19,9 +19,21 @@ const SectionTitle = ({ preTitle, title, children }) => {
 };
 
 const CommunityPage = () => {
-  const { walletAddress, microLoansContract, connectWallet, isConnected, disconnectWallet, communityFactoryContract, communityAbi } = useWalletContract();
+
+  const {
+    walletAddress,
+    microLoansContract,
+    connectWallet,
+    isConnected,
+    disconnectWallet,
+    communityFactoryContract,
+    communityAbi,
+  } = useWalletContract();
+
 
   const [communities, setCommunities] = useState([]);
+  // const
+  const [userCommunities, setUserCommunities] = useState([]);
   const [filteredCommunities, setFilteredCommunities] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [memberFilter, setMemberFilter] = useState("");
@@ -30,11 +42,15 @@ const CommunityPage = () => {
   useEffect(() => {
     if (!isConnected) {
       connectWallet();
-    }
-    else {
+    } else {
       const fetchCommunities = async () => {
-        const res = await communityFactoryContract.getCommunities(walletAddress)
-        console.log(res)
+        const res = await communityFactoryContract.getCommunities(
+          walletAddress
+        );
+        const result = await communityFactoryContract.getAllCommunities();
+        setCommunities(result);
+        console.log(res);
+        console.log(result);
       };
       fetchCommunities();
     }
@@ -68,13 +84,28 @@ const CommunityPage = () => {
 
   const handleJoinCommunity = async (communityId) => {
     try {
-      const res = await axiosInstance.post(`/communities/join`, { communityId });
+      const res = await axiosInstance.post(`/communities/join`, {
+        communityId,
+      });
       console.log("Joined community:", res.data);
     } catch (error) {
       console.error("Error joining community:", error);
     }
   };
+  const joinCommunity=async(community)=>{
+    const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const communityContract = new ethers.Contract(walletAddress, communityAbi, signer);
+        let owners=community.owners
+        owners=owners.map(owner=>owner)
+        owners.push(walletAddress)
+        const tx = await communityContract.updateOwners(owners, 1);
+        // console.log(community[0])
+        if(tx){
+          const txn=await communityFactoryContract.addOwnersToCommunity(community[0], owners)
+        }
 
+  }
   return (
     <div className=""
       style={{
@@ -124,7 +155,7 @@ const CommunityPage = () => {
         <div className="!p-0">
           <div className="w-full max-w-2xl p-2 mx-auto rounded-2xl">
             <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-              {filteredCommunities.map((community, index) => (
+              {communities.map((community, index) => (
                 <motion.div
                   key={community.id}
                   className="bg-gray-700 text-white p-6 rounded-xl shadow-md"
@@ -136,17 +167,16 @@ const CommunityPage = () => {
                   <div>
                     <div className="mb-4">
                       <img
-                        src={community.image || "/default-image.jpg"}
+                        src={community.url || "/default-image.jpg"}
                         alt={community.name}
                         className="w-full h-40 object-cover rounded-md"
                       />
                     </div>
                     <h3 className="text-2xl font-semibold">{community.name}</h3>
-                    <p className="mt-2 text-lg">Category: {community.category}</p>
-                    <p className="mt-2 text-lg">Members: {community.members}</p>
+                    <p className="mt-2 text-lg">Number of Members: {community.owners.length}</p>
 
                     <button
-                      onClick={() => setSelectedCommunity(community)}
+                      onClick={() => joinCommunity(community)}
                       className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                     >
                       View/Join Community
@@ -155,26 +185,31 @@ const CommunityPage = () => {
 
                   {/* Community Details (if selected) */}
                   <AnimatePresence>
-                    {selectedCommunity && selectedCommunity.id === community.id && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: [0.4, 0, 0.2, 1],
-                        }}
-                        className="mt-4 p-4 bg-gray-800 rounded-lg"
-                      >
-                        <p className="text-lg">{selectedCommunity.description}</p>
-                        <button
-                          onClick={() => handleJoinCommunity(selectedCommunity.id)}
-                          className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    {selectedCommunity &&
+                      selectedCommunity.id === community.id && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{
+                            duration: 0.5,
+                            ease: [0.4, 0, 0.2, 1],
+                          }}
+                          className="mt-4 p-4 bg-gray-800 rounded-lg"
                         >
-                          Join Community
-                        </button>
-                      </motion.div>
-                    )}
+                          <p className="text-lg">
+                            {selectedCommunity.description}
+                          </p>
+                          <button
+                            onClick={() =>
+                              handleJoinCommunity(selectedCommunity.id)
+                            }
+                            className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                          >
+                            Join Community
+                          </button>
+                        </motion.div>
+                      )}
                   </AnimatePresence>
                 </motion.div>
               ))}
@@ -209,7 +244,8 @@ const CommunityPage = () => {
                 <p className="mt-2 text-lg">Category: Tech</p>
                 <p className="mt-2 text-lg">Members: 120+</p>
                 <p className="mt-4 text-sm text-gray-400">
-                  A Tech focussed community with funds focussed upon Technical / software education in rural areas
+                  A Tech focussed community with funds focussed upon Technical /
+                  software education in rural areas
                 </p>
                 <button
                   onClick={() => setSelectedCommunity(community)}
@@ -240,10 +276,12 @@ const CommunityPage = () => {
                 <p className="mt-2 text-lg">Category: Agriculture</p>
                 <p className="mt-2 text-lg">Members: 500+</p>
                 <p className="mt-4 text-sm text-gray-400">
-                  A community set up by the farmers for the farmers to fund raise for various Agriculture activities
+
+                  A community set up by the farmers for the farmers to fund
+                  raise for various Agriculture activities
                 </p>
                 <button
-                  onClick={() => setSelectedCommunity(community)}
+                  // onClick={() => setSelectedCommunity(community)}
                   className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                 >
                   View/Join Community
@@ -271,7 +309,9 @@ const CommunityPage = () => {
                 <p className="mt-2 text-lg">Category: Health</p>
                 <p className="mt-2 text-lg">Members: 300+</p>
                 <p className="mt-4 text-sm text-gray-400">
-                  A health and wellness community where funding or lending is focussed towards health camp activities
+                  A health and wellness community where funding or lending is
+                  focussed towards health camp activities
+
                 </p>
                 <button
                   onClick={() => setSelectedCommunity(community)}
@@ -279,12 +319,10 @@ const CommunityPage = () => {
                 >
                   View/Join Community
                 </button>
-
               </div>
             </motion.div>
           </div>
         </div>
-
       </div>
     </div>
   );
