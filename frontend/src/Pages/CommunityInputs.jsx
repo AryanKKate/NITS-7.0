@@ -10,6 +10,7 @@ function KYC() {
     const context = useWalletContract();
     const { isConnected, connectWallet, walletAddress, microLoansContract } = context;
     const navigate = useNavigate();
+    
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");

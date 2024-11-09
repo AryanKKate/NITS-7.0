@@ -13,7 +13,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="sm:px-[0px] bg-transparent shadow-lg shadow-white  mb-10">
+    <div className="sm:px-[0px] bg-opacity-45 border-b-[3px] border-gray-400 mb-10">
       <nav className="container mx-auto flex items-center justify-between py-4 px-6 lg:px-12">
         {/* Logo */}
         <Link

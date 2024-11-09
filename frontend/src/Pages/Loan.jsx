@@ -118,7 +118,7 @@ function Loan() {
     >
       <Navbar />
       {isConnected ? (
-        <div className="flex mt-3 justify-center ">
+        <div className=" lg:flex mt-3 justify-center ">
           {/* Left - Carousel */}
           <div className="relative flex items-center justify-center ">
             <div
