@@ -1,6 +1,6 @@
-import Transaction from "../models/txn.js";
+const Transaction=require('../models/transaction')
 
-export const addTxn = async (req, res) => {
+exports.addTxn = async (req, res) => {
     console.log('yayay')
     try {
         const { amount, from, signature, to, requiredSignatures } = req.body;
@@ -16,7 +16,7 @@ export const addTxn = async (req, res) => {
     }
 };
 
-export const getAllTxn = async (req, res) => {
+exports.getAllTxn = async (req, res) => {
     console.log(req.body);
     const { multisigWallet } = req.body;
     try {
@@ -28,7 +28,7 @@ export const getAllTxn = async (req, res) => {
     }
 }
 
-export const signTxn = async (req, res) => {
+exports.signTxn = async (req, res) => {
     const { transactionId, signature } = req.body;
     try {
       const txn = await Transaction.findOne({ _id: transactionId });
@@ -60,7 +60,7 @@ export const signTxn = async (req, res) => {
   };
   
 
-export const executeTransaction = async (req, res) => {
+exports.executeTransaction = async (req, res) => {
     const { txHash, transactionId } = req.body;
     if(!txHash || !transactionId){
         res.status(400).json({error: "Invalid Hash of ID"})

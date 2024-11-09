@@ -17,7 +17,7 @@ exports.getUserLoans=async(req, res)=>{
     res.json(userLoans);
 }
 
-exports.bid_count = async (req, res) => {   
+exports.bid_count = async (req, res) => {
     try {
         const { loanId } = req.body;
         
@@ -43,7 +43,7 @@ exports.setLoan = async (req, res) => {
         const { address, userLoan, userPercentage, loanIndex } = req.body;
 
         const newLoan = new Loan({
-            address:address,
+            address: address,
             loan: userLoan,
             percentage: userPercentage,
             bidCount: 0,
@@ -65,9 +65,28 @@ exports.setLoan = async (req, res) => {
     }
 };
 
-exports.getLoan=async(req, res) =>{
-    const loans=await Loan.find({status:"pending"}) 
-    res.json(loans)
+exports.getLoan = async (req, res) => {
+    const loans = await Loan.find({});
+    res.json(loans);
+}
+
+exports.approveBid = async (req, res) => {
+    const { loanId } = req.body;
+    const loan = await Loan.findById(loanId);
+    if (loan) {
+        loan.acceptedBid = loan.bids[loan.bids.length - 1];
+        loan.lender = loan.bids[loan.bids.length - 1].bidBy;
+        loan.status = "approved";
+        loan.paid = false;
+    }
+    await loan.save();
+    res.json({ message: "Bid has been approved", loan: loan });
+}
+
+exports.getUserApprovedBids = async (req, res) => {
+    const { address } = req.params;
+    const loan = await Loan.find({ lender: address });
+    res.json(loan);
 }
 
 exports.approveBid=async(req,res)=>{
@@ -117,7 +136,7 @@ exports.bid = async (req, res) => {
             bidOpenAt,
             bidCloseAt,
             bidAt: moment().toDate(),
-            status: 'pending', 
+            status: 'pending',
         };
 
         loan.bids.push(newBid);
@@ -143,5 +162,35 @@ exports.bid = async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ message: "Error placing bid", error: err });
+    }
+};
+
+// New function to mark loan as done after money is sent
+exports.markLoanAsDone = async (req, res) => {
+    try {
+        const { loanId } = req.body;
+
+        const loan = await Loan.findById(loanId);
+        if (!loan) {
+            return res.status(404).json({ message: 'Loan not found' });
+        }
+
+        // Check if the loan status is currently "approved" and not already marked as done
+        if (loan.status !== "approved") {
+            return res.status(400).json({ message: 'Loan must be in "approved" status to mark as done' });
+        }
+
+        // Mark loan as done and set paid to true
+        loan.status = "done";
+        loan.paid = true;
+
+        await loan.save();
+
+        res.json({
+            message: "Loan status updated to Done.",
+            loan: loan
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Error updating loan status to Done", error: err });
     }
 };

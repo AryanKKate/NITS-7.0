@@ -16,7 +16,7 @@ mongoose.connect('mongodb+srv://shivpratikhande2017:vxgCsfWIRu4qZKtJ@cluster0.b5
 app.use(bodyParser.json());
 
 app.use('/api/loan', loanRoutes);
-app.use('/api/transaction', trasactionRoutes)
+app.use('/api/transaction', transactionRoutes)
 
 const port = 5000;
 app.listen(port, () => {

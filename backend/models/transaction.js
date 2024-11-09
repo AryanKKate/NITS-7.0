@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+const mongoose = require('mongoose');
 
-const txnSchema = new Schema({
+const txnSchema = new mongoose.Schema({
   amount: Number,
   from: {
     type: String,
@@ -27,4 +27,5 @@ const txnSchema = new Schema({
   status: { type: String, enum: ["Pending", "Complete"], default: "Pending" },
 })
 
-export default model("Transaction", txnSchema);
+const Transaction= mongoose.model("Transaction", txnSchema);
+module.export=Transaction
