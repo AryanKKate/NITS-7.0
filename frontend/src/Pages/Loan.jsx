@@ -53,13 +53,16 @@ function Loan() {
   const addLoan = async () => {
     try {
       const loanAmount = convertINRToWei(formData.amount);
-      const userLoans=await microLoansContract.getUserRequestedLoans(walletAddress)
+      const userLoans = await microLoansContract.getUserRequestedLoans(
+        walletAddress
+      );
       const res = await microLoansContract.requestLoan(
         loanAmount,
         types[formData.type],
         formData.description
       );
       const result = await axiosInstance.post("/loan", {
+        address: walletAddress,
         userLoan: loanAmount.toString(),
         userPercentage: formData.roi,
         loanIndex: userLoans.length,
