@@ -55,6 +55,12 @@ function KYC() {
 
   // Handle image upload to cloud
   const handleImageUpload = async (imageFile) => {
+    // Check if the file is an image
+    if (!imageFile || !imageFile.type.startsWith('image/')) {
+      alert('Please upload an image file (PNG, JPEG, etc.).');
+      return null; // Exit the function if the file is not an image
+    }
+
     const cloudinaryUrl =
       "https://api.cloudinary.com/v1_1/dke7f8nkt/image/upload";
     const formData = new FormData();
@@ -64,18 +70,17 @@ function KYC() {
     formData.append("upload_preset", "TraderHub");
 
     try {
-      const res = await axios.post(cloudinaryUrl, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await fetch(cloudinaryUrl, {
+        method: "POST",
+        body: formData,
       });
-      setFormData((prev) => {
-        return { ...prev, image: res.data.secure_url };
-      });
-      return res.data.secure_url; // Cloudinary URL of the uploaded image
-    } catch (err) {
-      console.error("Error uploading image:", err);
-      return null;
+
+      const data = await response.json();
+      console.log("Uploaded image URL:", data.secure_url); // Image URL on Cloudinary
+      return data.secure_url; // Return the URL if needed
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null; // Return null in case of an error
     }
   };
 
@@ -86,7 +91,6 @@ function KYC() {
 
     // Handle the form submission, e.g., send the data to an API
     const image = await handleImageUpload(formData.image);
-    console.log(image);
     if (image) {
       try {
         console.log(walletAddress);

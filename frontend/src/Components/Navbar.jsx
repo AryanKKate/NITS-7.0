@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useWalletContract } from "../Context/WalletProvider";
 import { useEffect, useState } from "react";
 
 export const Navbar = () => {
-  const navigation = [];
+  const navigate = useNavigate(); // Initialize navigate for programmatic navigation
   const context = useWalletContract();
   const { isConnected, connectWallet } = context;
-  // console.log(context);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleCommunityClick = async () => {
+    //await connectWallet();  // Connect wallet first
+    navigate('/community');  // Navigate to Community page
+  };
 
   return (
     <div className="sm:px-[0px] bg-indigo-700 border-b-[1px] mb-10 border-white">
@@ -22,11 +26,10 @@ export const Navbar = () => {
             alt="Logo"
             className="logo-image w-12 h-auto"  // Initial size for the logo
           />
-
           <span className="text-indigo-300">Udaan</span>
         </Link>
 
-        {/* Get Started button - only show on medium and larger screens */}
+        {/* Navigation Links */}
         <div className="hidden lg:flex gap-3 nav__item mr-2 lg:ml-auto lg:order-2">
           <Link
             to="/kyc"
@@ -40,27 +43,27 @@ export const Navbar = () => {
           <Link
             to="/bidding"
             className="px-6 py-2 text-white rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            onClick={() => connectWallet()}
           >
             Bidding
           </Link>
+          {/* Updated Community Hub Button to connect wallet and navigate */}
+          <button
+            onClick={handleCommunityClick} // Connect wallet and then navigate
+            className="px-6 py-2 text-white rounded-md md:ml-5"
+          >
+            Community Hub
+          </button>
           <Link
             to="/dashboard"
             className="px-6 py-2 text-white rounded-md md:ml-5"
-            // onClick={() => {
-            //   connectWallet;
-            // }}
           >
             Dashboard
           </Link>
           <Link
             to="/loan"
             className="px-6 py-2 text-white bg-gray-800 rounded-md md:ml-5"
-            onClick={() => {
-              connectWallet;
-            }}
+            onClick={() => connectWallet()}
           >
             Get Loan
           </Link>

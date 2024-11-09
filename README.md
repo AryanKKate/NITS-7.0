@@ -19,7 +19,28 @@ Navigate to the frontend folder , install dependencies & start server:
 Navigate to the backend folder & install dependencies & start server: 
 
 ```bash
-   cd frontend
+   cd backend
    npm install
-   npm start
+   nodemon server.js
    ```
+
+Set Up MetaMask:
+
+Install the MetaMask extension for your browser.
+Create a new wallet and keep your seed phrase secure.
+Add the Holesky Testnet network to MetaMask:
+Open MetaMask and click on the network selector.
+Click on "Add Network."
+Enter the following details:
+Network Name: Holesky Testnet
+New RPC URL: https://rpc.testnet.holesky.io
+Chain ID: 17000
+Currency Symbol: ETH
+Block Explorer URL: https://explorer.testnet.holesky.io
+Click "Save."
+Obtain testnet tokens from a faucet or other sources.
+Access the Udaan App:
+
+Open your web browser and navigate to [Website url](https://672e33c19f57c6b74dc22035--jade-churros-2d1fb2.netlify.app/)
+Connect your MetaMask wallet to the Udaan app.
+Explore the app's features and interact with the micro-lending platform.
