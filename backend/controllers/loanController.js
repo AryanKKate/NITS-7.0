@@ -1,5 +1,7 @@
 const Loan = require("../models/loan");
 const moment = require("moment");
+const Loan = require("../models/loan");
+const moment = require("moment");
 
 function generateUniqueBits() {
   return Math.random() * 100;

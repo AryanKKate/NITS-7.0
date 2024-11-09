@@ -17,7 +17,7 @@ const SectionTitle = ({ preTitle, title, children }) => {
 // FAQ data
 const faqdata = [
   {
-    question: "How can local communities avail benefits from Credly?",
+    question: "How can local communities avail benefits from Udaan?",
     answer: "The platform encourages community involvement through Self-Help Groups (SHGs) and peer-to-peer lending models, creating a community-based trust system.",
   },
   {
