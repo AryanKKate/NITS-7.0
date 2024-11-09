@@ -116,25 +116,25 @@ function KYC() {
     } else {
       toast.error("Failed to upload image");
     }
-    setLoading(false); // Set loading state to false after submission
+    setLoading(false);
   };
 
   return (
-    <div className="bg-gray-800"           style={{ backgroundImage: "url('bg.jpeg')" }}
->
+    <div className="bg-gray-800" style={{ backgroundImage: "url('bg.jpeg')" }}
+    >
       <div>
         <Navbar />
       </div>
       <div className="min-h-full w-full bg-transparent flex justify-center items-center " >
         <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10"
->
+        >
           {/* Left Side - Image */}
           <div className="w-1/2 flex items-center justify-center ">
             <img
-              src="/kyc.jpeg" 
+              src="/kyc.jpeg"
               alt="KYC Illustration"
-              className="w-full h-auto rounded-2xl border-transparent shadow-2xl shadow-white"
-              style={{ maxHeight: "600px", maxWidth: "600px"  }} // Optional max height for image
+              className="w-full h-auto rounded-2xl border-none shadow-xl ]"
+              style={{ maxHeight: "600px", maxWidth: "600px" }} 
             />
           </div>
 
@@ -235,7 +235,7 @@ function KYC() {
 
                 </div>
                 <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 mb-4"
+                  className="w-full px-4 py-3 rounded-lg text-white border border-gray-600 mb-4"
                   type="file"
                   name="image"
                   onChange={handleFileChange}
@@ -245,7 +245,7 @@ function KYC() {
                   type="submit"
                   className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${loading ? "opacity-50 cursor-not-allowed" : ""
                     }`}
-                  disabled={loading} // Disable button while loading
+                  disabled={loading}
                 >
                   {loading ? "Submitting..." : "Submit"}
                 </button>
