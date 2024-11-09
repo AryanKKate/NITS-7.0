@@ -66,7 +66,7 @@ exports.setLoan = async (req, res) => {
 };
 
 exports.getLoan=async(req, res) =>{
-    const loans=await Loan.find({})
+    const loans=await Loan.find({status:"pending"})
     res.json(loans)
 }
 
