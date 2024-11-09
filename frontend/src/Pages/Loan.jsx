@@ -21,6 +21,7 @@ function Loan() {
       connectWallet();
     }
   }, [isConnected]);
+
   const types = {
     personal: 0,
     business: 1,
@@ -53,7 +54,7 @@ function Loan() {
   const addLoan = async () => {
     try {
       const loanAmount = convertINRToWei(formData.amount);
-      const userLoans=await microLoansContract.getUserRequestedLoans(walletAddress)
+      const userLoans = await microLoansContract.getUserRequestedLoans(walletAddress);
       const res = await microLoansContract.requestLoan(
         loanAmount,
         types[formData.type],
@@ -71,20 +72,87 @@ function Loan() {
     }
   };
 
+  // Carousel State
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
+    "/bg1.jpeg",
+    "/bg2.jpeg",
+    "/bg3.jpeg"
+  ];
+
+  // Automatically change the image every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 2300); // Change every 2 seconds
+
+    // Clear the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+  };
+
+  // Dots update based on current image index
+  const handleDotClick = (index) => {
+    setCurrentImageIndex(index);
+  };
+
   return (
     <div className="flex flex-col bg-gray-900 min-h-screen w-full">
       <Navbar />
       {isConnected ? (
-        <div className="flex mt-3">
-          <div className="flex pl-44 items-center">
-            <img
-              src="https://nextly.web3templates.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhero.4e76c802.png&w=640&q=75"
-              alt="Hero Illustration"
-              loading="eager"
-              width="450px"
-            />
+        <div className="flex mt-3 justify-center ">
+          {/* Left - Carousel */}
+          <div className="relative flex items-center justify-center ">
+            <div
+              className="carousel-container"
+              style={{
+                position: "relative",
+                width: "450px",
+                overflow: "hidden",
+                borderRadius: "10px",
+              }}
+            >
+              {/* Image Display */}
+              <img
+                src={images[currentImageIndex]}
+                alt="Hero Illustration"
+                loading="eager"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  transition: "transform 0.5s ease-in-out", // Smooth transition
+                }}
+              />
+              {/* Left and Right Buttons */}
+
+            </div>
+
+            {/* Dots Below the Carousel */}
+            <div className="absolute bottom-0 text-center  left-1/2 transform -translate-x-1/2 mb-4 flex space-x-2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  className={` w-2 h-2 rounded-full ${currentImageIndex === index ? 'bg-white' : 'bg-gray-500'}`}
+                  style={{ transition: 'background-color 0.4s' }}
+                />
+              ))}
+            </div>
           </div>
-          <div className="flex justify-center items-center pl-64 w-1/2">
+
+          {/* Right - Loan Form */}
+          <div className="flex justify-center items-center  w-1/2">
             <div className="w-5/6 max-w-xl mx-auto my-auto p-8 border-2 border-gray-300 rounded-lg min-h-[600px]">
               <h1 className="text-3xl font-semibold text-center text-white mb-6">
                 Get Loan
