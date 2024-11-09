@@ -13,27 +13,27 @@ function adjustPriceBasedOnDemandSupply(loan, buyDemand) {
 
 exports.getUserLoans=async(req, res)=>{
     const {address}=req.params;
-    const userLoans=await Loan.find({address:address, status:"pending"});
+    const userLoans=await Loan.find({address:address, status:"pending"}); 
     res.json(userLoans);
 }
 
-exports.bid_count = async (req, res) => {
-  try {
-    const { loanId } = req.body;
-
-    const loan = await Loan.findById(loanId);
-    if (!loan) {
-      return res.status(404).json({ message: "Loan not found" });
+exports.bid_count = async (req, res) => {   
+    try {
+        const { loanId } = req.body;
+        
+        const loan = await Loan.findById(loanId);
+        if (!loan) {
+            return res.status(404).json({ message: 'Loan not found' });
+        }
+        
+        const bidCount = loan.bidCount;
+        res.json({
+            message: 'Bid count retrieved successfully.',
+            bidCount: bidCount
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching bid count", error: error });
     }
-
-    const bidCount = loan.bidCount;
-    res.json({
-      message: "Bid count retrieved successfully.",
-      bidCount: bidCount,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching bid count", error: error });
-  }
 };
 
 exports.setLoan = async (req, res) => {
@@ -63,7 +63,7 @@ exports.setLoan = async (req, res) => {
 };
 
 exports.getLoan=async(req, res) =>{
-    const loans=await Loan.find({status:"pending"})
+    const loans=await Loan.find({status:"pending"}) 
     res.json(loans)
 }
 
@@ -73,7 +73,7 @@ exports.approveBid=async(req,res)=>{
     if(loan){
         loan.acceptedBid=loan.bids[loan.bids.length-1]
         loan.lender=loan.bids[loan.bids.length-1].bidBy
-        loan.status="approved"
+        loan.status="approved" 
         loan.paid=false;
     }
     await loan.save()
@@ -109,15 +109,16 @@ exports.bid = async (req, res) => {
     const returnOnLoan = (updatedLoan * updatedPercentage) / 100;
     const totalLoanValue = updatedLoan + returnOnLoan;
 
-    const newBid = {
-      uniqueBits,
-      paidAmount,
-      returnOnLoan,
-      bidOpenAt,
-      bidCloseAt,
-      bidAt: moment().toDate(),
-      status: "open",
-    };
+        const newBid = {
+            bidBy,
+            uniqueBits,
+            paidAmount,
+            returnOnLoan,
+            bidOpenAt,
+            bidCloseAt,
+            bidAt: moment().toDate(),
+            status: 'pending', 
+        };
 
     loan.bids.push(newBid);
     loan.buyDemand += uniqueBits;
