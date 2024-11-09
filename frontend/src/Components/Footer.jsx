@@ -57,7 +57,7 @@ export function Footer() {
   const legal = ["Terms", "Privacy", "Legal"];
 
   return (
-    <div className="relative min-h-[45vh] bg-[#353944]">
+    <div className="relative min-h-[45vh] bg-black">
       <div>
         <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
           {/* Logo and Description */}
