@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "../Components/Navbar";
 import axiosInstance from "../AxiosInstance";
+import { useWalletContract } from "../Context/WalletProvider";
 
 // SectionTitle Component
 const SectionTitle = ({ preTitle, title, children }) => {
+  
   return (
     <div className="mb-12 text-center">
       <h4 className="text-lg font-semibold text-indigo-600 uppercase">
@@ -17,6 +19,8 @@ const SectionTitle = ({ preTitle, title, children }) => {
 };
 
 const CommunityPage = () => {
+  const {walletAddress, microLoansContract, connectWallet, isConnected, disconnectWallet, communityFactoryContract, communityAbi} = useWalletContract();
+
   const [communities, setCommunities] = useState([]);
   const [filteredCommunities, setFilteredCommunities] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -24,17 +28,17 @@ const CommunityPage = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null);
 
   useEffect(() => {
-    const fetchCommunities = async () => {
-      try {
-        const res = await axiosInstance.get("/communities");
-        setCommunities(res.data);
-        setFilteredCommunities(res.data);
-      } catch (error) {
-        console.error("Error fetching communities:", error);
-      }
-    };
-    fetchCommunities();
-  }, []);
+    if(!isConnected){
+      connectWallet();
+    }
+    else{
+      const fetchCommunities = async () => {
+        const res=await communityFactoryContract.getCommunities(walletAddress)
+        console.log(res)
+      };
+      fetchCommunities();
+    }
+  }, [isConnected]);
 
   const handleSearch = () => {
     let filtered = communities;
