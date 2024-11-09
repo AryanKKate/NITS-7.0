@@ -71,7 +71,7 @@ function Loan() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-800 min-h-screen w-full">
+    <div className="flex flex-col bg-gray-900 min-h-screen w-full">
       <Navbar />
       {isConnected ? (
         <div className="flex mt-3">
