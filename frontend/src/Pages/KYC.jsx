@@ -177,6 +177,15 @@ function KYC() {
                   />
                   <input
                     className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="profession"
+                    placeholder="Profession"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
                     type="number"
                     name="age"
                     placeholder="Age"
