@@ -107,6 +107,7 @@ function KYC() {
         );
         console.log(res);
         console.log("Form submitted:", formData);
+        navigate("/");
         toast.success("Form Submitted");
       } catch (err) {
         toast.error("Error submitting your KYC");
