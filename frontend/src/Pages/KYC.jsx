@@ -34,6 +34,7 @@ function KYC() {
     annualIncome: "",
     savings:"", // Added annualIncome
     image: "https://via.placeholder.com/150", // Dummy image URL
+    profession:""
   });
 
   // Handle input changes
@@ -103,7 +104,8 @@ function KYC() {
           formData.adhar_num,
           image,
           +formData.annualIncome,
-          +formData.savings
+          +formData.savings,
+          formData.profession
         );
         console.log(res);
         console.log("Form submitted:", formData);
@@ -220,6 +222,15 @@ function KYC() {
                   name="savings"
                   placeholder="Savings"
                   value={formData.savings}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                  type="text"
+                  name="profession"
+                  placeholder="Profession"
+                  value={formData.profession}
                   onChange={handleChange}
                   required
                 />

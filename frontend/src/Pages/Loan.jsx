@@ -43,13 +43,13 @@ function Loan() {
     e.preventDefault();
     try {
       const loanAmount = convertINRToWei(formData.amount);
+      const userLoans=await microLoansContract.getUserRequestedLoans(walletAddress)
       const res = await microLoansContract.requestLoan(
         loanAmount,
         types[formData.type],
         formData.description,
       );
       console.log(res);
-      const userLoans=await microLoansContract.getUserRequestedLoans()
       console.log(userLoans.length)
       console.log(walletAddress)
       const result=await axiosInstance.post("/loan", {userLoan: loanAmount.toString(), userPercentage:formData.roi, loanIndex: userLoans.length, address: walletAddress})
