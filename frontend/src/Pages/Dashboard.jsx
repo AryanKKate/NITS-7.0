@@ -105,14 +105,14 @@ function Dashboard() {
         }
       );
       console.log(tx);
- 
+
       const res = await axiosInstance.post("/loan/done", { loanId: loan._id });
       console.log("Loan marked as done:", res.data);
     } catch (error) {
       console.error("Error in sending money or marking loan as done:", error);
     }
   };
-  
+
 
   const handleWithdraw = (loanId) => {
     console.log("Loan withdrawn with ID:", loanId);
@@ -120,7 +120,15 @@ function Dashboard() {
   };
   const type = ["Personal", "Business", "Student"];
   return (
-    <div className="bg-gray-900 min-h-screen">
+    <div className="bg-gray-900 min-h-screen"
+      style={{
+        backgroundImage: "url('formBg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <Navbar />
       <div className="px-6 py-12">
         <h1 className="text-4xl font-semibold text-center text-white mb-8">

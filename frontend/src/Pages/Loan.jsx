@@ -107,7 +107,15 @@ function Loan() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-900 min-h-screen w-full">
+    <div className="flex flex-col bg-gray-900 min-h-screen w-full"
+      style={{
+        backgroundImage: "url('formBg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <Navbar />
       {isConnected ? (
         <div className="flex mt-3 justify-center ">
