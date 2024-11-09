@@ -3,18 +3,17 @@ import { useWalletContract } from "../Context/WalletProvider";
 import { useState } from "react";
 
 export const Navbar = () => {
-  const navigate = useNavigate(); // Initialize navigate for programmatic navigation
+  const navigate = useNavigate();
   const context = useWalletContract();
   const { isConnected, connectWallet } = context;
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCommunityClick = async () => {
-    // await connectWallet();  // Connect wallet first
-    navigate('/community');  // Navigate to Community page
+    navigate("/community");
   };
 
   return (
-    <div className="sm:px-[0px] bg-indigo-800 border-b-[2px] border-gray-800 mb-10">
+    <div className="sm:px-[0px] bg-indigo-800 border-b-[3px] border-gray-400 mb-10">
       <nav className="container mx-auto flex items-center justify-between py-4 px-6 lg:px-12">
         {/* Logo */}
         <Link
@@ -26,7 +25,6 @@ export const Navbar = () => {
             alt="Logo"
             className="logo-image w-24 h-auto transition-transform duration-300 hover:scale-110 shadow-lg rounded-lg"
           />
-
         </Link>
 
         {/* Mobile Hamburger Icon */}
@@ -42,51 +40,65 @@ export const Navbar = () => {
             className="w-8 h-8"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
         </button>
 
-        {/* Navigation Links */}
+        {/* Navigation Links - Collapsible on Mobile */}
         <div
-          className={`lg:flex gap-3 ml-auto items-center transition-all duration-300 ease-in-out space-x-4 lg:space-x-8 ${isOpen ? "block" : "hidden"} lg:block`}
+          className={`lg:flex gap-3 ml-auto items-center transition-all duration-300 ease-in-out ${
+            isOpen ? "block" : "hidden"
+          } lg:block`}
         >
-          <Link
-            to="/kyc"
-            className="px-6 py-2 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
-            onClick={() => connectWallet()}
-          >
-            Login/KYC
-          </Link>
-          <Link
-            to="/bidding"
-            className="px-6 py-2 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
-            onClick={() => connectWallet()}
-          >
-            Bidding
-          </Link>
-          <button
-            onClick={handleCommunityClick}
-            className="px-6 py-2 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
-          >
-            Community Hub
-          </button>
-          <Link
-            to="/dashboard"
-            className="px-6 py-2 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
-          >
-            Dashboard
-          </Link>
-          <Link
-            to="/loan"
-            className="px-6 py-2 text-white bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
-            onClick={() => connectWallet()}
-          >
-            Get Loan
-          </Link>
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 lg:space-x-8">
+            <li>
+              <Link
+                to="/kyc"
+                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+                onClick={() => connectWallet()}
+              >
+                Login/KYC
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/bidding"
+                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+                onClick={() => connectWallet()}
+              >
+                Bidding
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={handleCommunityClick}
+                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+              >
+                Community Hub
+              </button>
+            </li>
+            <li>
+              <Link
+                to="/dashboard"
+                className="block py-2 px-3 text-white rounded-md bg-indigo-600 hover:bg-indigo-500 transition duration-300"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/loan"
+                className="block py-2 px-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300"
+                onClick={() => connectWallet()}
+              >
+                Get Loan
+              </Link>
+            </li>
+          </ul>
         </div>
       </nav>
     </div>
