@@ -3,6 +3,7 @@ import { Navbar } from "../Components/Navbar";
 import { useWalletContract } from "../Context/WalletProvider";
 import { ethers } from "ethers";
 import axiosInstance from "../AxiosInstance";
+import { useNavigate } from "react-router-dom";
 
 function Loan() {
   const {
@@ -12,6 +13,8 @@ function Loan() {
     isConnected,
     disconnectWallet,
   } = useWalletContract();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isConnected) {
@@ -34,36 +37,42 @@ function Loan() {
   const INR_TO_ETHER_RATE = 224650;
   const convertINRToWei = (inrAmount) => {
     const etherAmount = inrAmount / INR_TO_ETHER_RATE;
-    const weiAmount = ethers.parseEther(etherAmount.toString());
-    console.log(weiAmount);
-    return weiAmount;
+    return ethers.parseEther(etherAmount.toString());
   };
 
-  const addLoan = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await addLoan();
+      navigate("/");
+    } catch (error) {
+      console.error("Error submitting loan form:", error);
+    }
+  };
+
+  const addLoan = async () => {
     try {
       const loanAmount = convertINRToWei(formData.amount);
       const userLoans=await microLoansContract.getUserRequestedLoans(walletAddress)
       const res = await microLoansContract.requestLoan(
         loanAmount,
         types[formData.type],
-        formData.description,
+        formData.description
       );
-      console.log(res);
-      console.log(userLoans.length)
-      console.log(walletAddress)
-      const result=await axiosInstance.post("/loan", {userLoan: loanAmount.toString(), userPercentage:formData.roi, loanIndex: userLoans.length, address: walletAddress})
-      console.log(result)
-    } catch (err) {
-      console.log(err);
+      const result = await axiosInstance.post("/loan", {
+        userLoan: loanAmount.toString(),
+        userPercentage: formData.roi,
+        loanIndex: userLoans.length,
+      });
+      console.log(result);
+    } catch (error) {
+      console.error("Error in addLoan:", error);
     }
   };
 
   return (
     <div className="flex flex-col bg-gray-800 min-h-screen w-full">
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
       {isConnected ? (
         <div className="flex mt-3">
           <div className="flex pl-44 items-center">
@@ -79,7 +88,7 @@ function Loan() {
               <h1 className="text-3xl font-semibold text-center text-white mb-6">
                 Get Loan
               </h1>
-              <form action="#">
+              <form onSubmit={handleSubmit}>
                 <label
                   htmlFor="countries"
                   className="block mb-5 text-sm font-medium text-gray-900 dark:text-white"
@@ -120,7 +129,6 @@ function Loan() {
                   required
                 />
 
-                {/* ROI Input */}
                 <label
                   htmlFor="roi-input"
                   className="block mb-5 mt-5 text-sm font-medium text-gray-900 dark:text-white"
@@ -161,10 +169,10 @@ function Loan() {
                   placeholder="Briefly describe why you need the loan"
                   required
                 ></textarea>
+
                 <div className="flex justify-center mt-6">
                   <button
                     type="submit"
-                    onClick={addLoan}
                     className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                   >
                     Submit
@@ -175,9 +183,9 @@ function Loan() {
           </div>
         </div>
       ) : (
-        <>
-          <h1>Please connect your wallet first</h1>
-        </>
+        <h1 className="text-center text-white mt-20">
+          Please connect your wallet first
+        </h1>
       )}
     </div>
   );
