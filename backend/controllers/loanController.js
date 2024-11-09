@@ -1,49 +1,46 @@
-const Loan = require('../models/loan');
-const moment = require('moment');
+const Loan = require("../models/loan");
+const moment = require("moment");
 
 function generateUniqueBits() {
-    return Math.random() * 100;
+  return Math.random() * 100;
 }
 
 function adjustPriceBasedOnDemandSupply(loan, buyDemand) {
-    const demandEffect = buyDemand * 2;
-    const adjustedPrice = loan + demandEffect;
-    return adjustedPrice;
+  const demandEffect = buyDemand * 2;
+  const adjustedPrice = loan + demandEffect;
+  return adjustedPrice;
 }
 
-exports.getUserLoans=async(req, res)=>{
-    const {address}=req.params;
-    const userLoans=await Loan.find({address:address, status:"pending"}); 
+exports.getUserLoans = async (req, res) => {
+    const { address } = req.params;
+    const userLoans = await Loan.find({ address: address, status: "pending" });
     res.json(userLoans);
 }
 
-exports.bid_count = async (req, res) => {   
-    try {
-        const { loanId } = req.body;
-        
-        const loan = await Loan.findById(loanId);
-        if (!loan) {
-            return res.status(404).json({ message: 'Loan not found' });
-        }
-        
-        const bidCount = loan.bidCount;
-        res.json({
-            message: 'Bid count retrieved successfully.',
-            bidCount: bidCount
-        });
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching bid count", error: error });
+exports.bid_count = async (req, res) => {
+  try {
+    const { loanId } = req.body;
+
+    const loan = await Loan.findById(loanId);
+    if (!loan) {
+      return res.status(404).json({ message: "Loan not found" });
     }
+
+    const bidCount = loan.bidCount;
+    res.json({
+      message: "Bid count retrieved successfully.",
+      bidCount: bidCount,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching bid count", error: error });
+  }
 };
 
 exports.setLoan = async (req, res) => {
-    console.log("calling")
     try {
-        console.log(req.body)
-        const { address, userLoan, userPercentage, loanIndex } = req.body;
-
+        const { userLoan, userPercentage, loanIndex } = req.body;
+        
         const newLoan = new Loan({
-            address:address,
             loan: userLoan,
             percentage: userPercentage,
             bidCount: 0,
@@ -55,43 +52,24 @@ exports.setLoan = async (req, res) => {
             loanIndex: loanIndex
         });
 
-        await newLoan.save();
-        res.json({
-            message: 'Loan has been created successfully.',
-            loan: newLoan
-        });
-    } catch (err) {
-        res.status(500).json({ message: "Error creating loan", error: err });
-    }
+    await newLoan.save();
+    res.json({
+      message: "Loan has been created successfully.",
+      loan: newLoan,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Error creating loan", error: err });
+  }
 };
 
 exports.getLoan=async(req, res) =>{
-    const loans=await Loan.find({status:"pending"}) 
+    const loans=await Loan.find({})
     res.json(loans)
-}
-
-exports.approveBid=async(req,res)=>{
-    const {loanId}=req.body;
-    const loan=await Loan.findById(loanId)
-    if(loan){
-        loan.acceptedBid=loan.bids[loan.bids.length-1]
-        loan.lender=loan.bids[loan.bids.length-1].bidBy
-        loan.status="approved" 
-        loan.paid=false;
-    }
-    await loan.save()
-    res.json({message:"Bid has been approved",loan:loan})
-}
-
-exports.getUserApprovedBids=async(req,res)=>{
-    const {address}=req.params
-    const loan=await Loan.find({lender:address})
-    res.json(loan)
 }
 
 exports.bid = async (req, res) => {
     try {
-        const { loanId, bidBy } = req.body;
+        const { loanId } = req.body;
         const uniqueBits = generateUniqueBits();
         
         const bidOpenAt = moment().toDate();
@@ -102,46 +80,54 @@ exports.bid = async (req, res) => {
             return res.status(404).json({ message: 'Loan not found' });
         }
 
-        const updatedLoan = adjustPriceBasedOnDemandSupply(loan.loan, loan.buyDemand + uniqueBits);
-        
-        const updatedPercentage = loan.percentage - (uniqueBits / 100);
-        const paidAmount = updatedPercentage - loan.percentage;
-        const returnOnLoan = updatedLoan * updatedPercentage / 100;
-        const totalLoanValue = updatedLoan + returnOnLoan;
+    const updatedLoan = adjustPriceBasedOnDemandSupply(
+      loan.loan,
+      loan.buyDemand + uniqueBits
+    );
+
+    const updatedPercentage = loan.percentage - uniqueBits / 100;
+    const paidAmount = updatedPercentage - loan.percentage;
+    const returnOnLoan = (updatedLoan * updatedPercentage) / 100;
+    const totalLoanValue = updatedLoan + returnOnLoan;
 
         const newBid = {
-            bidBy,
             uniqueBits,
             paidAmount,
             returnOnLoan,
             bidOpenAt,
             bidCloseAt,
             bidAt: moment().toDate(),
-            status: 'pending', 
+            status: 'open',
         };
 
-        loan.bids.push(newBid);
-        loan.buyDemand += uniqueBits;
-        loan.bidCount++;
-        loan.loan = updatedLoan;
-        loan.percentage = updatedPercentage;
-        loan.paidAmount = paidAmount;
-        loan.returnOnLoan = returnOnLoan;
-        loan.totalLoanValue = totalLoanValue;
+    loan.bids.push(newBid);
+    loan.buyDemand += uniqueBits;
+    loan.bidCount++;
+    loan.loan = updatedLoan;
+    loan.percentage = updatedPercentage;
+    loan.paidAmount = paidAmount;
+    loan.returnOnLoan = returnOnLoan;
+    loan.totalLoanValue = totalLoanValue;
 
-        const savedLoan = await loan.save();
+    // Push the updated percentage to the percentageHistory array //
+    loan.percentageHistory.push(loan.percentage);
+    loan.percentageHistory.push(updatedPercentage);
 
-        res.json({
-            message: `Bid placed successfully with unique bits factor of ${uniqueBits.toFixed(2)}.`,
-            paidAmount: paidAmount.toFixed(2),
-            currentPercentage: updatedPercentage.toFixed(2),
-            returnOnLoan: returnOnLoan.toFixed(2),
-            demand: loan.buyDemand.toFixed(2),
-            totalLoanValue: totalLoanValue.toFixed(2),
-            bidCount: loan.bidCount,
-            loan: savedLoan
-        });
-    } catch (err) {
-        res.status(500).json({ message: "Error placing bid", error: err });
-    }
+    const savedLoan = await loan.save();
+
+    res.json({
+      message: `Bid placed successfully with unique bits factor of ${uniqueBits.toFixed(
+        2
+      )}.`,
+      paidAmount: paidAmount.toFixed(2),
+      currentPercentage: updatedPercentage.toFixed(2),
+      returnOnLoan: returnOnLoan.toFixed(2),
+      demand: loan.buyDemand.toFixed(2),
+      totalLoanValue: totalLoanValue.toFixed(2),
+      bidCount: loan.bidCount,
+      loan: savedLoan,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Error placing bid", error: err });
+  }
 };
