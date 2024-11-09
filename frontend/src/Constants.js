@@ -45,6 +45,11 @@ export const microLoansAbi=[
           "internalType": "uint256",
           "name": "_savings",
           "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_profession",
+          "type": "string"
         }
       ],
       "name": "addKYC",
@@ -287,6 +292,11 @@ export const microLoansAbi=[
               "internalType": "uint256",
               "name": "debt",
               "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "profession",
+              "type": "string"
             }
           ],
           "internalType": "struct MicroLoans.Person",
@@ -392,7 +402,13 @@ export const microLoansAbi=[
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
       "name": "getUserRequestedLoans",
       "outputs": [
         {
@@ -482,7 +498,7 @@ export const microLoansAbi=[
     }
   ]
 
-export const microLoansAddress="0xCEf7765a410C50457f6F06614Cdc0f0eE7B9340A"
+export const microLoansAddress="0x9A9BEccFcBCF7E948Bb3889E2DCd59Bed4dAfC40"
 
 export const communityFactoryAddress="0x3CA6Ab82C481248a1eA1e89CCa7cb8A3d4f4D82b"
 
