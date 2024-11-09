@@ -6,17 +6,18 @@ import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 contract Community is Initializable {
     uint256 private _requiredSignatures;
     address[] private _owners;
-
+    string photoUrl;
     event TransactionExecuted(uint256 transactionId, address executer);
     event ReceivedEth(uint256 amount);
 
-    function initialize(address[] memory owners, uint256 requiredSignatures) public initializer {
+    function initialize(address[] memory owners, uint256 requiredSignatures, string memory url) public initializer {
         require(owners.length > 0, "At least one owner required");
         require(requiredSignatures > 0 && requiredSignatures <= owners.length, "Invalid number of required signatures");
         require(isAllAddress(owners), "Invalid owner addresses");
 
         _owners = owners;
         _requiredSignatures = requiredSignatures;
+        photoUrl = url;
     }
     
     function getMessageHash(
@@ -72,7 +73,6 @@ contract Community is Initializable {
         }
     }
 
-
     function executeTransaction(address payable to, uint256 value, bytes[] memory signatures) public {
         require((address(this).balance >= value) && (value > 0), "Invalid value");
         uint256 numberOfSignatures=0;
@@ -95,7 +95,6 @@ contract Community is Initializable {
         _requiredSignatures = requiredSignatures;
     }
 
-    // HELPERS
 
     function isOwner(address account) public view returns (bool) {
         for (uint256 i = 0; i < _owners.length; i++) {
