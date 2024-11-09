@@ -32,7 +32,7 @@ function KYC() {
     adhar_num: "",
     bankAccNumber: "",
     annualIncome: "",
-    savings:"", // Added annualIncome
+    savings: "", // Added annualIncome
     image: "https://via.placeholder.com/150", // Dummy image URL
   });
 
@@ -120,19 +120,21 @@ function KYC() {
   };
 
   return (
-    <div className="bg-gray-800">
+    <div className="bg-gray-800"           style={{ backgroundImage: "url('bg.jpeg')" }}
+>
       <div>
         <Navbar />
       </div>
-      <div className="min-h-full w-full bg-gray-800 flex justify-center items-center">
-        <div className="flex max-w-4xl w-full bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+      <div className="min-h-full w-full bg-transparent flex justify-center items-center " >
+        <div className="flex max-w-4xl w-full bg-transparent shadow-lg rounded-lg overflow-hidden py-14 gap-10"
+>
           {/* Left Side - Image */}
-          <div className="w-1/2 flex items-center justify-center bg-gray-800">
+          <div className="w-1/2 flex items-center justify-center ">
             <img
-              src="/form.png" // Dynamically set the image URL
+              src="/kyc.jpeg" 
               alt="KYC Illustration"
-              className="w-full h-auto"
-              style={{ maxHeight: "300px", maxWidth: "300px" }} // Optional max height for image
+              className="w-full h-auto rounded-2xl border-transparent shadow-2xl shadow-white"
+              style={{ maxHeight: "600px", maxWidth: "600px"  }} // Optional max height for image
             />
           </div>
 
@@ -143,87 +145,95 @@ function KYC() {
                 KYC Form
               </h1>
               {error && <div className="text-red-500 mb-4">{error}</div>}
-              <form className="w-full max-w-sm" onSubmit={handleSubmit}>
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="walletAddress"
-                  placeholder="Wallet Address"
-                  value={walletAddress}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="number"
-                  name="age"
-                  placeholder="Age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="city"
-                  placeholder="City"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="addr"
-                  placeholder="Home Address"
-                  value={formData.addr}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="bankAccNumber"
-                  placeholder="Bank Account Number"
-                  value={formData.bankAccNumber}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="text"
-                  name="adharCardNumber"
-                  placeholder="Aadhar Card Number"
-                  value={formData.adharCardNumber}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="number"
-                  name="annualIncome"
-                  placeholder="Annual Income"
-                  value={formData.annualIncome}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
-                  type="number"
-                  name="savings"
-                  placeholder="Savings"
-                  value={formData.savings}
-                  onChange={handleChange}
-                  required
-                />
+
+              <input
+                className="w-full px-4 py-3  rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                type="text"
+                name="walletAddress"
+                placeholder="Wallet Address"
+                value={walletAddress}
+                required
+              />
+
+              <form onSubmit={handleSubmit}>
+
+                <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="addr"
+                    placeholder="Home Address"
+                    value={formData.addr}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="bankAccNumber"
+                    placeholder="Bank Account Number"
+                    value={formData.bankAccNumber}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="text"
+                    name="adharCardNumber"
+                    placeholder="Aadhar Card Number"
+                    value={formData.adharCardNumber}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="number"
+                    name="annualIncome"
+                    placeholder="Annual Income"
+                    value={formData.annualIncome}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 placeholder-white mb-4"
+                    type="number"
+                    name="savings"
+                    placeholder="Savings"
+                    value={formData.savings}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
                 <input
                   className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 mb-4"
                   type="file"
@@ -233,13 +243,13 @@ function KYC() {
                 />
                 <button
                   type="submit"
-                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`w-full mt-4 tracking-wide font-semibold bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-500 transition-all duration-300 ease-in-out ${loading ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   disabled={loading} // Disable button while loading
                 >
                   {loading ? "Submitting..." : "Submit"}
                 </button>
+
               </form>
             </div>
           </div>
