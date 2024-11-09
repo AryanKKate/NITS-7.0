@@ -26,7 +26,7 @@ const loanSchema = new mongoose.Schema({
     loanIndex: { type: Number, required: true},
     status: {type: String, enum: ['pending', 'approved'], default:"pending"},
     lender:String,
-    paid:Boolean
+    paid:Boolean  
 });
 
 const Loan = mongoose.model('Loan', loanSchema);
