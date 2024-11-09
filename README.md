@@ -41,6 +41,6 @@ Click "Save."
 Obtain testnet tokens from a faucet or other sources.
 Access the Udaan App:
 
-Open your web browser and navigate to [Website url](https://672e33c19f57c6b74dc22035--jade-churros-2d1fb2.netlify.app/)
+Open your web browser and navigate to [Website url]([https://672e33c19f57c6b74dc22035--jade-churros-2d1fb2.netlify.app/](https://udaan-5dnc-nitshacks.netlify.app/))
 Connect your MetaMask wallet to the Udaan app.
 Explore the app's features and interact with the micro-lending platform.
